@@ -1,6 +1,6 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -9,42 +9,151 @@
     <title>CIS440 - Sign In</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
     <!-- Bootstrap core CSS -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<meta name="theme-color" content="#7952b3">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <meta name="theme-color" content="#7952b3">
     <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
         }
-      }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        .contentPanel {
+            top: 70px;
+        }
     </style>
     <!-- Custom styles for this template -->
     <link href="signin.css" rel="stylesheet">
-  </head>
-  <body class="text-center">
-<main class="form-signin">
-  <form>
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-    <label for="inputEmail" class="visually-hidden">Email address</label>
-    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-    <label for="inputPassword" class="visually-hidden">Password</label>
-    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me</input>
-      </label>
+</head>
+<body class="text-center">
+    <div class="titlecontainer ">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="#" onclick="showPanel('logonPanel')">Login <span class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link" href="#" onclick="showPanel('homePanel')">Home</a>
+                    <a class="nav-item nav-link" href="#" onclick="showPanel('managementPanel')">Management</a>
+                    <a class="nav-item nav-link" href="#" onclick="showPanel('adminPanel')">Admin</a>
+                </div>
+            </div>
+        </nav>
     </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2017-2021</p>
-  </form>
-</main>
-  </body>
+    <div class="form-signin" id="logonPanel">
+        <form>
+            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+            <label for="inputEmail" class="visually-hidden">Email address</label>
+            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" autofocus>
+            <label for="inputPassword" class="visually-hidden">Password</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Password">
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me</input>
+                </label>
+            </div>
+            <button class="w-25 btn btn-lg btn-primary" type="submit">Sign in</button>
+            <button class="w-25 btn btn-lg btn-primary" onclick="showPanel('newAccountPanel')">Create Account</button>
+            <p class="mt-5 mb-3 text-muted">&copy; 2017-2021</p>
+        </form>
+    </div>
+    <div id="newAccountPanel" class="contentPanel newAccountPanel fixed-top">
+        <div class="newAccountBox">
+            <!--- change the look of this later -->
+            <form onsubmit="CreateAccount($('#newLogonId').val(), $('#newLogonPassword').val(), $('#newLogonFName').val(), $('#newLogonLName').val(), $('#newLogonEmail').val()); return false;">
+                <div class="left">Request Account</div>
+                <div><a href="#" onclick="showPanel('logonPanel')" class="tinyLink">...or log on</a></div>
+                <hr />
+                <div>
+                    ID: <input type="text" id="newLogonId" />
+                </div>
+                <div>
+                    Pwd: <input type="password" id="newLogonPassword" />
+                </div>
+                <div>
+                    First: <input type="text" id="newLogonFName" />
+                </div>
+                <div>
+                    Last: <input type="text" id="newLogonLName" />
+                </div>
+                <div>
+                    Email: <input type="text" id="newLogonEmail" />
+                </div>
+                <hr />
+                <div>
+                    <button type="submit">Go!</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    <div id="homePanel" class="contentPanel fixed-top">
+        <h1 class="h3 mb-3 fw-normal">Home</h1>
+    </div>
+    <div id="adminPanel" class="contentPanel fixed-top">
+        <h1 class="h3 mb-3 fw-normal">Administration</h1>
+        <div id="requestsPanel" class="contentPanel">
+            <div class="left">Account requests</div>
+            <hr />
+            <div class="accountsBox" id="requestsBox">
+
+
+            </div>
+        </div>
+    </div>
+    <div id="managementPanel" class="contentPanel fixed-top">
+        <h1 class="h3 mb-3 fw-normal">Management</h1>
+    </div>
+</body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        var contentPanels = ['logonPanel', 'newAccountPanel', 'homePanel', 'adminPanel', 'managementPanel'];
+        function showPanel(panelId) {
+            clearData();
+            for (var i = 0; i < contentPanels.length; i++) {
+                if (panelId == contentPanels[i]) {
+                    $("#" + contentPanels[i]).css("visibility", "visible");
+                }
+                else {
+                    $("#" + contentPanels[i]).css("visibility", "hidden");
+                }
+            }
+        }
+
+        function clearData() {
+            clearNewAccount();
+            clearLogon();
+        }
+
+        function clearNewAccount() {
+            $('#newLogonId').val("");
+            $('#newLogonPassword').val("");
+            $('#newLogonFName').val("");
+            $('#newLogonLName').val("");
+            $('#newLogonEmail').val("");
+        }
+
+        //resets the logon inputs
+        function clearLogon() {
+            $('#inputEmail').val("");
+            $('#inputPassword').val("");
+        }
+
+        jQuery(function () {
+            //when jquery loads this function runs to make sure logonPanel is the first thing shown
+            showPanel('logonPanel');
+        });
+    </script>
 </html>
