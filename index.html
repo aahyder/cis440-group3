@@ -1,13 +1,9 @@
 ﻿<!doctype html>
-<html lang="en">
-<head>
+<html lang="en-US">
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.79.0">
     <title>CIS440 - Sign In</title>
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <meta name="theme-color" content="#7952b3">
@@ -155,5 +151,35 @@
             //when jquery loads this function runs to make sure logonPanel is the first thing shown
             showPanel('logonPanel');
         });
+
+	    var signUp = function(){
+		    var submitBtn = document.getElementById("submit");
+		    var emailInput = document.getElementById("inputEmail");
+		    var userNameInput = document.getElementById("inputUsername");
+		    var passwordInput = document.getElementById("inputPassword");
+		    var signUpInput = document.getElementById("sign-up-checkbox");
+		    if (signUpInput.checked == true) {
+			    userNameInput.type = "hidden";
+			    passwordInput.type = "hidden";
+			    emailInput.type = "email";
+			    submitBtn.innerHTML = "Send Request";
+			    signUpInput.style.paddingTop = "15px";	
+		    }
+		    else {
+			    emailInput.type = "hidden";
+			    userNameInput.type = "text";
+			    passwordInput.type = "password";
+			    submitBtn.innerHTML = "Sign In";
+			    signUpInput.style.paddingTop = "15px";		
+		    }
+	    }
+	    var formSubmit = function(form) {
+		    var userNameInput = document.getElementById("inputUsername");
+		    var passwordInput = document.getElementById("inputPassword");
+		    var form = document.getElementById("sign-in-form");
+		    form.action = "./sign-in?username=" + userNameInput.value + "&pw=" + passwordInput.value;
+		    console.log(form.action);
+		    form.submit();
+	        };
     </script>
 </html>
