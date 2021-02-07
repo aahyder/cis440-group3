@@ -29,6 +29,16 @@
         .contentPanel {
             top: 70px;
         }
+
+        .newAccountPanel {
+            width: 800px;
+            margin: 30px auto;
+        }
+
+        .form-signin {
+            width: 800px;
+            margin: 30px auto;
+        }
     </style>
     <!-- Custom styles for this template -->
     <link href="signin.css" rel="stylesheet">
@@ -68,34 +78,24 @@
         </form>
     </div>
     <div id="newAccountPanel" class="contentPanel newAccountPanel fixed-top">
-        <div class="newAccountBox">
-            <!--- change the look of this later -->
-            <form onsubmit="CreateAccount($('#newLogonId').val(), $('#newLogonPassword').val(), $('#newLogonFName').val(), $('#newLogonLName').val(), $('#newLogonEmail').val()); return false;">
-                <div class="left">Request Account</div>
-                <div><a href="#" onclick="showPanel('logonPanel')" class="tinyLink">...or log on</a></div>
-                <hr />
-                <div>
-                    ID: <input type="text" id="newLogonId" />
-                </div>
-                <div>
-                    Pwd: <input type="password" id="newLogonPassword" />
-                </div>
-                <div>
-                    First: <input type="text" id="newLogonFName" />
-                </div>
-                <div>
-                    Last: <input type="text" id="newLogonLName" />
-                </div>
-                <div>
-                    Email: <input type="text" id="newLogonEmail" />
-                </div>
-                <hr />
-                <div>
-                    <button type="submit">Go!</button>
-                </div>
-            </form>
-
-        </div>
+        <form action="/examples/actions/confirmation.php" method="post">
+            <h2>Sign Up</h2>
+            <p>Fill out this form to request an account!</p>
+            <hr>
+            <div class="form-group">
+                <input type="text" class="form-control" name="id" placeholder="ID #" required="required">
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" name="email" placeholder="Email" required="required">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+            </div>
+            <div class="form-group">
+                <button class="w-25 btn btn-lg btn-primary" type="submit">Submit Request</button>
+                <button class="w-25 btn btn-lg btn-primary" onclick="showPanel('logonPanel')">Or try logging in</button>
+            </div>
+        </form>
     </div>
     <div id="homePanel" class="contentPanel fixed-top">
         <h1 class="h3 mb-3 fw-normal">Home</h1>
