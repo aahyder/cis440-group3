@@ -1,15 +1,12 @@
 // server.js
+// set up server constants
 require('dotenv').config();
-var express = require('express');
-var path = require('path');
-var bcrypt = require('bcrypt');
-var passport = require('passport');
-var flash = require('express-flash');
-var session = require('express-session');
-
-// set constants
+//const initAuthentication = require('./utils/authentication');
+const express = require('express');
+const session = require('express-session');
+const path = require('path');
+const pageRouter = require('./routes/pages');
 const app = express();
-const initAuthentication = require('./utils/authentication');
 const port = 3000;
 
 // intialize app
@@ -17,34 +14,34 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view-engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended: false}));
-app.use(flash());
 app.use(session({
-	secret: process.env.SESSION_SECRET,
-	resave: false,
-	saveUninitialized: false
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+	// set cookie time limit
+    cookie: {
+        maxAge: 60 * 1000 * 30
+    }
 }));
-app.use(passport.initialize());
-app.use(passport.session());
 
 // initialize passport
-initAuthentication(passport);
+//initAuthentication(passport);
 
-// GET requests
-app.get('/', (req, res) => {
-    res.render('login.ejs');
+// serve routes
+app.use('/', pageRouter);
+
+// 404 error
+app.use((req, res, next) =>  {
+    var err = new Error('404 ERROR: Page not found');
+    err.status = 404;
+    next(err);
 })
 
-app.get('/login', (req, res) => {
-	res.render('login.ejs');
-})
-
-// POST reqeusts
-app.post('/sign-in', passport.authenticate('local', {
-	successRedirect: '/index',
-	failureRedirect: '/login',
-	failureFlash: true
-  }))
-
+// error handling
+app.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    res.send(err.message);
+});
 
 // start server
 app.listen(port, () => {
