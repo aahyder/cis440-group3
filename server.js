@@ -1,28 +1,52 @@
 // server.js
-var dataServices = require("./data-utils");
+require('dotenv').config();
 var express = require('express');
-var app = express();
+var path = require('path');
+var bcrypt = require('bcrypt');
+var passport = require('passport');
+var flash = require('express-flash');
+var session = require('express-session');
 
-const path = require("path");
+// set constants
+const app = express();
+const initAuthentication = require('./utils/authentication');
 const port = 3000;
 
+// intialize app
+app.set('views', path.join(__dirname, 'views'));
+app.set('view-engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({extended: false}));
+app.use(flash());
+app.use(session({
+	secret: process.env.SESSION_SECRET,
+	resave: false,
+	saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
-// respond with "hello world" when a GET request is made to the homepage
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname+'/index.html'));
+// initialize passport
+initAuthentication(passport);
+
+// GET requests
+app.get('/', (req, res) => {
+    res.render('login.ejs');
 })
 
-app.post('/sign-in', function(request, response, next) {
-	var username = request.param("username");
-	var pass = request.param("pw");
-	console.log(username, " ", pass);
-	dataServices.authenticateUser(username, pass, function(error, result) {
-		if (error) return next(error);
-		return response.status(200).json(result[0]);
-  });
-});
+app.get('/login', (req, res) => {
+	res.render('login.ejs');
+})
 
+// POST reqeusts
+app.post('/sign-in', passport.authenticate('local', {
+	successRedirect: '/index',
+	failureRedirect: '/login',
+	failureFlash: true
+  }))
+
+
+// start server
 app.listen(port, () => {
-  console.log(`server app listening at http://localhost:${port}`)
-})
+    console.log(`server app listening at http://localhost:${port}`);
+  })
