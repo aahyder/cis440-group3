@@ -34,7 +34,7 @@ var getUserById = function (id, callback) {
 	con.query("CALL checkUserById('" + id + "')", function (err, result) {
 		if (err) throw err;
 		con.end();
-		console.log('GetUserById SP: '+result);
+		console.log('GetUserById SP: '+JSON.stringify(result));
 		return callback(null, result);
 	});
 };
@@ -47,11 +47,12 @@ var getUserByName = function (name, callback) {
 		password: "group32021",
 		database: "2021group3"
 	});
+	console.log("CALL checkUserByName('" + name + "')");
 	con.query("CALL checkUserByName('" + name + "')", function (err, result) {
 		if (err) throw err;
+		console.log('getUserByName SP: '+JSON.stringify(result[0][0]));
 		con.end();
-		console.log('getUserByName SP: '+result);
-		return callback(null, result[0][0]);
+		return callback(null, JSON.stringify(result[0][0]));
 	});
 };
 

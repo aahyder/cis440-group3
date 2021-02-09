@@ -11,9 +11,9 @@ User.prototype = {
             console.log(user + " " + id);
             dataServices.getUserByName(id, function(err, result){
                 if (err) throw err;
-                console.log('user find: '+result);
+                console.log('user find: '+result[0]);
                 // return sp data to callback
-                callback(result);
+                callback(result[0]);
             });
         }
     },
@@ -35,6 +35,7 @@ User.prototype = {
                 });
             } else {
                 console.log('user login failed!');
+                callback(null);
             }
         });
     }

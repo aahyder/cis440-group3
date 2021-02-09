@@ -10,7 +10,7 @@ const user = new User();
 router.get('/', (req, res, next) => {
     var user = req.session.user;
     if(user) {
-        res.redirect('/index.ejs');
+        res.redirect('index.ejs');
         return;
     }
     res.render('login.ejs', {});
@@ -35,13 +35,24 @@ router.post('/login', (req, res, next) => {
     user.login(req.body.username, req.body.password, function(result) {
         console.log('login post: '+result)
         if(result) {
+            console.log("session user before: "+req.session.user);
             req.session.user = result;
+            console.log('session user after: '+req.session.user);
             req.session.opp = 1;
-            res.redirect('/index.ejs');
+            console.log(req.session.opp);
+            res.redirect('/index');
         }else {
             res.send('Username/Password incorrect!');
         }
     });
+});
+
+router.get('/logout', (req, res, next) => {
+    if(req.session.user) {
+        req.session.destroy(function() {
+            res.redirect('/');
+        });
+    }
 });
 
 module.exports = router;
