@@ -10,7 +10,7 @@ const user = new User();
 router.get('/', (req, res, next) => {
     var user = req.session.user;
     if(user) {
-        res.redirect('index.ejs');
+        res.redirect('/index');
         return;
     }
     res.render('login.ejs', {});
@@ -19,7 +19,8 @@ router.get('/', (req, res, next) => {
 router.get('/index', (req, res) => {
     var user = req.session.user;
     if(user) {
-        res.render('index.ejs');
+        var user = JSON.parse(user);
+        res.render('index.ejs', {username: user.UserName});
         return;
     }
     res.redirect('/');
