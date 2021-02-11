@@ -27,7 +27,28 @@ router.get('/index', (req, res, next) => {
     var user = req.session.user;
     if(user) {
         var user = JSON.parse(user);
-        res.render('index.ejs', {username: user.UserName, caller: 'user'});
+        console.log(user.UserTypeID);
+        if(user.UserTypeID = 1) {
+            request.list(function(result) {
+                console.log('index post admin: '+result)
+                var data = JSON.parse(result);
+                console.log(data);
+                res.render('admin.ejs', {username: user.UserName, data: data});
+                
+            });
+        } else {
+            res.render('index.ejs', {username: user.UserName});
+        }
+        return;
+    }
+    res.redirect('/');
+});
+
+router.get('/home', (req, res, next) => {
+    var user = req.session.user;
+    console.log(user);
+    if(user) {
+        res.render('index.ejs', {username: user.UserName});
         return;
     }
     res.redirect('/');
@@ -37,8 +58,21 @@ router.get('/admin', (req, res, next) => {
     var user = req.session.user;
     if(user) {
         var user = JSON.parse(user);
-        if (user.UserType){
-            res.render('index.ejs', {username: user.UserName, caller: 'admin'});
+        console.log(user.UserTypeID)
+        if (user.UserTypeID = 1){
+            request.list(function(result) {
+                console.log('index post admin: '+result)
+                var data = JSON.parse(result);
+                console.log(data);
+                res.render('admin.ejs', {username: user.UserName, data: data});
+                
+            });
+        }
+        else if (user.UserTypeID = 2) {
+            res.render('index.ejs', {username: user.UserName});
+        }
+        else if (user.UserTypeID = 3) {
+            res.render('index.ejs', {username: user.UserName});
         }
         else {
             res.redirect('/');  

@@ -9,9 +9,9 @@ Request.prototype = {
         if(request) {
             var id = request;
             console.log(user + " " + id);
-            dataServices.getUserByName(id, function(err, result){
+            dataServices.getRequestById(id, function(err, result){
                 if (err) throw err;
-                console.log('user find: '+result[0]);
+                console.log('request find: '+result[0]);
                 // return sp data to callback
                 callback(result[0]);
             });
@@ -39,6 +39,15 @@ Request.prototype = {
                 callback(result[0]);
             });
         }
+    },
+    // get pending requests
+    list : function(callback) {
+        dataServices.getPendingRequests(function(err, result) {
+            if(err) throw err;
+            console.log('request list call: '+result);
+            // return sp data to callback
+            callback(result);
+        }); 
     }
 }
 

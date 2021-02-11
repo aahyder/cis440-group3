@@ -36,6 +36,38 @@ var getUserById = function (id, callback) {
 	});
 };
 
+var getRequestById = function (id, callback) {
+	// set up db connection
+	var con = sql.createConnection({
+		host: "107.180.1.16",
+		user: "2021group3",
+		password: "group32021",
+		database: "2021group3"
+	});
+	con.query("CALL checkUserById('" + id + "')", function (err, result) {
+		if (err) throw err;
+		con.end();
+		console.log('GetUserById SP: '+JSON.stringify(result));
+		return callback(null, result);
+	});
+};
+
+var getPendingRequests = function (callback) {
+	// set up db connection
+	var con = sql.createConnection({
+		host: "107.180.1.16",
+		user: "2021group3",
+		password: "group32021",
+		database: "2021group3"
+	});
+	con.query("CALL checkPendingRequests()", function (err, result) {
+		if (err) throw err;
+		con.end();
+		console.log('checkPendingRequests SP: '+JSON.stringify(result[0]));
+		return callback(null, JSON.stringify(result[0]));
+	});
+};
+
 var getUserByName = function (name, callback) {
 	// set up db connection
 	var con = sql.createConnection({
@@ -62,7 +94,7 @@ var createNewRequest = function (name, email, callback) {
 		database: "2021group3"
 	});
 	console.log("CALL addNewRequest('" + name + "','" + email + "')");
-	con.query("CALL addNewRequest('" + email + "','" + name + "')", function (err, result) {
+	con.query("CALL addNewRequest('" + name + "','" + email  + "')", function (err, result) {
 		if (err) throw err;
 		console.log('addNewRequest SP: '+JSON.stringify(result[0][0].addr));
 		con.end();
@@ -70,5 +102,5 @@ var createNewRequest = function (name, email, callback) {
 	});
 };
 
-module.exports = {authenticateUser, getUserById, getUserByName, createNewRequest};
+module.exports = {authenticateUser, getUserById, getUserByName, createNewRequest, getPendingRequests};
 

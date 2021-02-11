@@ -50,15 +50,16 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <form action="/home" method="get">
-                        <input type="hidden" class="nav-item nav-link" onclick="showPanel('homePanel')"><a style="padding-right: 10px; font-weight: bold;">Home</a></input>
+                        <input type="hidden" class="nav-item nav-link" onclick="showPanel('homePanel')"><a style="padding-right: 10px;">Home</a></input>
                     </form>
                     <form action="/management" method="get">
                         <input type="hidden" class="nav-item nav-link" onclick="showPanel('managementPanel')"><a style="padding-right: 10px;">Management</a></input>
                     </form>
                     <form action="/admin" method="get">
-                        <input type="hidden" class="nav-item nav-link" onclick="showPanel('adminPanel')"><a style="padding-right: 10px">Admin</a></input>
+                        <input type="hidden" class="nav-item nav-link" onclick="showPanel('adminPanel')"><a style="padding-right: 10px; font-weight: bold;">Admin</a></input>
                     </form>
                     <input type="hidden" class="nav-item nav-link" href="#" onclick="showPanel('logoutPanel')"><a style="padding-right: 10px;">Logout</a></input>
+                </div>
                 </div>
             </div>
         </nav>
@@ -97,6 +98,27 @@
             <div class="left">Account requests</div>
             <hr />
             <div class="accountsBox" id="requestsBox">
+                <table class="table table-hover table table-striped" style="max-width: 650px; text-align: center; margin: 0 auto;">
+                    <thead>
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email Address</th>
+                        <th scope="col">Approve</th>
+                        <th scope="col">Deny</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <% data.forEach(function(d) {%>
+                      <tr>
+                        <th scope="row"><%= d.RequestName %></th>
+                        <td><%= d.RequestEmail %></td>
+                        <td><button type="button" class="btn btn-success">Yes</button></td>
+                        <td><button type="button" class="btn btn-danger">No</button></td>
+                      </tr>
+                    <% }); %>
+                    </tbody>
+                  </table>
+
             </div>
         </div>
     </div>
@@ -132,7 +154,7 @@
 
         jQuery(function () {
             //when jquery loads this function runs to make sure homePanel is the first thing shown
-            showPanel('homePanel');
+            showPanel('adminPanel');
         });
     </script>
 </html>
