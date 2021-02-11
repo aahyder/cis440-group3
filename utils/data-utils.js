@@ -2,9 +2,6 @@
 const util = require('util');
 const sql = require('mysql');
 
-// convert query callbacks into promise objects
-//con.query = util.promisify(con.query);
-
 // SP call functions
 var authenticateUser = function (u, p, callback) {
 	// set up db connection
@@ -56,5 +53,22 @@ var getUserByName = function (name, callback) {
 	});
 };
 
-module.exports = {authenticateUser, getUserById, getUserByName};
+var createNewRequest = function (name, email, callback) {
+	// set up db connection
+	var con = sql.createConnection({
+		host: "107.180.1.16",
+		user: "2021group3",
+		password: "group32021",
+		database: "2021group3"
+	});
+	console.log("CALL addNewRequest('" + name + "','" + email + "')");
+	con.query("CALL addNewRequest('" + email + "','" + name + "')", function (err, result) {
+		if (err) throw err;
+		console.log('addNewRequest SP: '+JSON.stringify(result[0][0].addr));
+		con.end();
+		return callback(null, JSON.stringify(result[0][0].addr));
+	});
+};
+
+module.exports = {authenticateUser, getUserById, getUserByName, createNewRequest};
 

@@ -1,7 +1,6 @@
 // server.js
 // set up server constants
 require('dotenv').config();
-//const initAuthentication = require('./utils/authentication');
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
@@ -23,9 +22,6 @@ app.use(session({
         maxAge: 60 * 1000 * 30
     }
 }));
-
-// initialize passport
-//initAuthentication(passport);
 
 // serve routes
 app.use('/', pageRouter);

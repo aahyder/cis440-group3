@@ -49,9 +49,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="#" onclick="showPanel('homePanel')">Home<span class="sr-only"></span></a>
+                    <a class="nav-item nav-link" onclick="showPanel('homePanel')">Home<span class="sr-only"></span></a>
                     <a class="nav-item nav-link" href="#" onclick="showPanel('managementPanel')">Management</a>
-                    <a class="nav-item nav-link" href="#" onclick="showPanel('adminPanel')">Admin</a>
+                    <a class="nav-item nav-link" action='/admin' method='get' onclick="showPanel('adminPanel')">Admin</a>
                     <a class="nav-item nav-link" href="#" onclick="showPanel('logoutPanel')">Logout</a>
                 </div>
             </div>
@@ -100,8 +100,10 @@
         <h1 class="h3 mb-3 fw-normal">Management</h1>
     </div>
 </body>
+<% var state = caller %>
     <script type="text/javascript">
         var contentPanels = ['logoutPanel', 'newAccountPanel', 'homePanel', 'adminPanel', 'managementPanel'];
+        //var state = <%= state %>;
         function showPanel(panelId) {
             clearData();
             for (var i = 0; i < contentPanels.length; i++) {
@@ -127,8 +129,13 @@
         }
 
         jQuery(function () {
-            //when jquery loads this function runs to make sure logonPanel is the first thing shown
-            showPanel('homePanel');
+            //when jquery loads this function runs to make sure homePanel is the first thing shown
+            if(state = 'admin') {
+                showPanel('adminPanel');
+            }
+            else {
+                showPanel('homePanel');
+            }
         });
     </script>
 </html>
