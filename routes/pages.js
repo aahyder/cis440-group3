@@ -20,7 +20,6 @@ router.get('/', (req, res, next) => {
     var user = req.session.user;
     if(user) {
         res.redirect('/index');
-        return;
     }
     res.render('login.ejs', {});
 });
@@ -31,9 +30,9 @@ router.get('/index', (req, res, next) => {
         var user = JSON.parse(user);
         console.log(user.UserTypeID);
         if(user.UserTypeID = 1) {
-            res.redirect('/admin')
+            res.redirect('/admin');
         } else if(user.UserTYpe = 2) {
-            //TODO 
+            res.redirect('/management');
         }else {
             res.redirect('/home');
         }
@@ -58,7 +57,7 @@ router.get('/admin', (req, res, next) => {
     if(user) {
         var user = JSON.parse(user);
         console.log(user.UserTypeID)
-        if (user.UserTypeID = 1){
+        if (user.UserTypeID == 1){
             request.list(function(result) {
                 console.log('admin get: '+result)
                 var data = JSON.parse(result);
@@ -68,7 +67,7 @@ router.get('/admin', (req, res, next) => {
             });
         }
         else {
-            res.redirect('/index');  
+            res.redirect('/home');  
         }
     } else {
         res.redirect('/');
@@ -76,7 +75,7 @@ router.get('/admin', (req, res, next) => {
 });
 
 router.get('/login', (req, res, next) => {
-    console.log('login get')
+    console.log('login get');
     res.render('login.ejs', {});
 });
 
@@ -118,12 +117,17 @@ router.post('/login', (req, res, next) => {
 });
 
 router.post('/approve', (req, res, next) => {
-    request.approve(req.query.id, function(result){
-        console.log('approve post: '+result);
-        if(result) {
-            res.redirect('/admin');
-        }
-    });
+    var user = req.session.user;
+    if(user) {
+        request.approve(req.query.id, function(result){
+            console.log('approve post: '+result);
+            if(result) {
+                res.redirect('/admin');
+            }
+        });
+    } else {
+        res.send('access denied');      
+    }
 });
 
 router.post('/request', (req, res, next) => {
