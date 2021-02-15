@@ -41,24 +41,23 @@
     <link href="signin.css" rel="stylesheet">
 </head>
 <body class="text-center">
-    <div class="titlecontainer ">
+    <div class="titlecontainer">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">Hi <%= username %></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <form action="/home" method="get">
-                        <input type="hidden" class="nav-item nav-link" onclick="showPanel('homePanel')"><a style="padding-right: 10px; font-weight: bold;">Home</a></input>
+                    <form action="/home" method="get" class="nav-item nav-link">
+                        <input type="submit" class="nav-item nav-link" value="Home"></input>
                     </form>
-                    <form action="/management" method="get">
-                        <input type="hidden" class="nav-item nav-link" onclick="showPanel('managementPanel')"><a style="padding-right: 10px;">Management</a></input>
+                    <form action="/management" method="get" class="nav-item nav-link">
+                        <input type="submit" class="nav-item nav-link" value="Management"></input>
                     </form>
-                    <form action="/admin" method="get">
-                        <input type="hidden" class="nav-item nav-link" onclick="showPanel('adminPanel')"><a style="padding-right: 10px">Admin</a></input>
+                    <form action="/admin" method="get" class="nav-item nav-link">
+                        <input type="submit" class="nav-item nav-link" style="font-weight: bold;" value="Admin"></input>
                     </form>
-                    <input type="hidden" class="nav-item nav-link" href="#" onclick="showPanel('logoutPanel')"><a style="padding-right: 10px;">Logout</a></input>
+                    <form action="/logout" method="get" class="nav-item nav-link">
+                        <input type="submit" class="nav-item nav-link" value="Logout"></input>
+                    </form>
                 </div>
             </div>
         </nav>

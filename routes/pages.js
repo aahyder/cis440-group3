@@ -31,29 +31,26 @@ router.get('/index', (req, res, next) => {
         var user = JSON.parse(user);
         console.log(user.UserTypeID);
         if(user.UserTypeID = 1) {
-            request.list(function(result) {
-                console.log('index post admin: '+result)
-                var data = JSON.parse(result);
-                console.log(data);
-                res.render('admin.ejs', {username: user.UserName, data: data});
-                
-            });
-        } else {
-            res.render('index.ejs', {username: user.UserName});
+            res.redirect('/admin')
+        } else if(user.UserTYpe = 2) {
+            //TODO 
+        }else {
+            res.redirect('/home');
         }
-        return;
+    } else {
+        res.redirect('/');
     }
-    res.redirect('/');
 });
 
 router.get('/home', (req, res, next) => {
     var user = req.session.user;
     console.log(user);
     if(user) {
-        res.render('index.ejs', {username: user.UserName});
-        return;
+        var user = JSON.parse(user);
+        res.render('home.ejs', {username: user.UserName});
+    } else {
+        res.redirect('/');
     }
-    res.redirect('/');
 });
 
 router.get('/admin', (req, res, next) => {
@@ -63,25 +60,19 @@ router.get('/admin', (req, res, next) => {
         console.log(user.UserTypeID)
         if (user.UserTypeID = 1){
             request.list(function(result) {
-                console.log('index post admin: '+result)
+                console.log('admin get: '+result)
                 var data = JSON.parse(result);
                 console.log(data);
                 res.render('admin.ejs', {username: user.UserName, data: data});
                 
             });
         }
-        else if (user.UserTypeID = 2) {
-            res.render('index.ejs', {username: user.UserName});
-        }
-        else if (user.UserTypeID = 3) {
-            res.render('index.ejs', {username: user.UserName});
-        }
         else {
-            res.redirect('/');  
+            res.redirect('/index');  
         }
-        return;
-    }
-    res.redirect('/');    
+    } else {
+        res.redirect('/');
+    }  
 });
 
 router.get('/login', (req, res, next) => {
@@ -99,7 +90,7 @@ router.get('/logout', (req, res, next) => {
 });
 
 router.get('/request', (req, res, next) => {
-    console.log('reguest get');
+    console.log('request get');
     deparment.list(function(result) {
         console.log('department get list: '+result)
         var data = JSON.parse(result);
@@ -127,11 +118,10 @@ router.post('/login', (req, res, next) => {
 });
 
 router.post('/approve', (req, res, next) => {
-    console.log(req.body);
-    request.approve(req.body.id, function(result){
+    request.approve(req.query.id, function(result){
         console.log('approve post: '+result);
         if(result) {
-            res.redirect('/index')
+            res.redirect('/admin');
         }
     });
 });
@@ -157,6 +147,14 @@ router.post('/job-titles', (req, res, next) => {
     var id = req.query.id;
     job.list(id, function(result){
         console.log("job-titles post: "+result);
+        res.end(JSON.stringify(result));
+    });
+});
+
+router.post('/new-request', (req, res, next) => {
+    var id = req.query.id;
+    request.find(id, function(result){
+        console.log("new-request post: "+result);
         res.end(JSON.stringify(result));
     });
 });

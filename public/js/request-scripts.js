@@ -21,6 +21,7 @@ var selectDepartment = function() {
   var selection = document.getElementById('department-dropdown').value;
   getJobTitles(selection);
 }
+
 var submitRequest = function(form) {
   var dept = document.getElementById('department-dropdown').value;
   var job = document.getElementById('job-dropdown').value;
