@@ -1,5 +1,4 @@
 //data-utils.js
-const util = require('util');
 const sql = require('mysql');
 
 // SP call functions
@@ -52,6 +51,38 @@ var getRequestById = function (id, callback) {
 	});
 };
 
+var getDepartments = function (callback) {
+	// set up db connection
+	var con = sql.createConnection({
+		host: "107.180.1.16",
+		user: "2021group3",
+		password: "group32021",
+		database: "2021group3"
+	});
+	con.query("CALL checkDepartments()", function (err, result) {
+		if (err) throw err;
+		con.end();
+		console.log('checkDepartments SP: '+JSON.stringify(result[0]));
+		return callback(null, JSON.stringify(result[0]));
+	});
+};
+
+var getJobs = function (id, callback) {
+	// set up db connection
+	var con = sql.createConnection({
+		host: "107.180.1.16",
+		user: "2021group3",
+		password: "group32021",
+		database: "2021group3"
+	});
+	con.query("CALL checkJobs("  + id + ")", function (err, result) {
+		if (err) throw err;
+		con.end();
+		console.log('checkJobs SP: '+JSON.stringify(result[0]));
+		return callback(null, JSON.stringify(result[0]));
+	});
+};
+
 var getPendingRequests = function (callback) {
 	// set up db connection
 	var con = sql.createConnection({
@@ -85,7 +116,7 @@ var getUserByName = function (name, callback) {
 	});
 };
 
-var createNewRequest = function (name, email, callback) {
+var createNewRequest = function (email, fname, lname, dept, job, callback) {
 	// set up db connection
 	var con = sql.createConnection({
 		host: "107.180.1.16",
@@ -93,8 +124,8 @@ var createNewRequest = function (name, email, callback) {
 		password: "group32021",
 		database: "2021group3"
 	});
-	console.log("CALL addNewRequest('" + name + "','" + email + "')");
-	con.query("CALL addNewRequest('" + name + "','" + email  + "')", function (err, result) {
+	console.log("CALL addNewRequest('" + fname + "','" + lname  + "','" + email  + "','" + dept  + "','" + job  + "')");
+	con.query("CALL addNewRequest('" + fname + "','" + lname  + "','" + email  + "','" + dept  + "','" + job  + "')", function (err, result) {
 		if (err) throw err;
 		console.log('addNewRequest SP: '+JSON.stringify(result[0][0].addr));
 		con.end();
@@ -102,5 +133,5 @@ var createNewRequest = function (name, email, callback) {
 	});
 };
 
-module.exports = {authenticateUser, getUserById, getUserByName, createNewRequest, getPendingRequests};
+module.exports = {authenticateUser, getUserById, getUserByName, createNewRequest, getPendingRequests, getDepartments, getJobs};
 

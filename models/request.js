@@ -18,11 +18,11 @@ Request.prototype = {
         }
     },
     // insert new request data
-    create : function(name, email, callback) {
-        dataServices.createNewRequest(name, email, function(err, result){
+    create : function(email, fname, lname, dept, job, callback) {
+        dataServices.createNewRequest(email, fname, lname, dept, job, function(err, result){
             if(err) throw err;
-            console.log('create request: '+result[0]);
-            callback(result[0]);
+            console.log('create request: '+result);
+            callback(result);
         });
 
     },

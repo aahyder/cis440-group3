@@ -1,13 +1,19 @@
 // pages.js
-// set up middleware and models
+// set up middleware
 const express = require('express');
-const User = require('../models/user');
-const Request = require('../models/request');
 const router = express.Router();
 
-// initialize model objects
+// set up models
+const User = require('../models/user');
+const Request = require('../models/request');
+const Department = require('../models/department');
+const Job = require('../models/job')
+
+// initialize models
 const user = new User();
 const request = new Request();
+const deparment = new Department();
+const job = new Job();
 
 // GET requests
 router.get('/', (req, res, next) => {
@@ -17,10 +23,6 @@ router.get('/', (req, res, next) => {
         return;
     }
     res.render('login.ejs', {});
-});
-
-router.get('/request', (req, res, next) => {
-    res.render('request.ejs');
 });
 
 router.get('/index', (req, res, next) => {
@@ -83,10 +85,12 @@ router.get('/admin', (req, res, next) => {
 });
 
 router.get('/login', (req, res, next) => {
+    console.log('login get')
     res.render('login.ejs', {});
 });
 
 router.get('/logout', (req, res, next) => {
+    console.log('logout get')
     if(req.session.user) {
         req.session.destroy(function() {
             res.redirect('/');
@@ -94,8 +98,14 @@ router.get('/logout', (req, res, next) => {
     }
 });
 
-router.get('/register', (req, res, next) => {
-    //TODO
+router.get('/request', (req, res, next) => {
+    console.log('reguest get');
+    deparment.list(function(result) {
+        console.log('department get list: '+result)
+        var data = JSON.parse(result);
+        console.log(data);
+        res.render('request.ejs', {data: data});  
+    });
 });
 
 // POST reqeusts
@@ -128,14 +138,26 @@ router.post('/approve', (req, res, next) => {
 
 router.post('/request', (req, res, next) => {
     var mail = req.body.email;
-    var name = req.body.name;
-    request.create(name, mail, function(result){
+    var dept = req.body.dept;
+    var title = req.body.job;
+    var fname = req.body.fname;
+    var lname = req.body.lname;
+    console.log(fname+" "+lname);
+    request.create(mail, fname, lname, dept, title, function(result){
         console.log('request post: '+result);
         if (result == 1) {
             res.redirect('/');
         }else {
             res.send('account already requested');
         }
+    });
+});
+
+router.post('/job-titles', (req, res, next) => {
+    var id = req.query.id;
+    job.list(id, function(result){
+        console.log("job-titles post: "+result);
+        res.end(JSON.stringify(result));
     });
 });
 
