@@ -68,6 +68,22 @@ var getPendingRequests = function (callback) {
 	});
 };
 
+var getPosts = function (callback) {
+    // set up db connection
+    var con = sql.createConnection({
+        host: "107.180.1.16",
+        user: "2021group3",
+        password: "group32021",
+        database: "2021group3"
+    });
+    con.query("CALL checkPosts()", function (err, result) {
+        if (err) throw err;
+        con.end();
+        console.log('checkPosts SP: ' + JSON.stringify(result[0]));
+        return callback(null, JSON.stringify(result[0]));
+    });
+};
+
 var getUserByName = function (name, callback) {
 	// set up db connection
 	var con = sql.createConnection({
@@ -102,5 +118,5 @@ var createNewRequest = function (name, email, callback) {
 	});
 };
 
-module.exports = {authenticateUser, getUserById, getUserByName, createNewRequest, getPendingRequests};
+module.exports = {authenticateUser, getUserById, getUserByName, createNewRequest, getPendingRequests, getPosts};
 
