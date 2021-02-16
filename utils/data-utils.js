@@ -168,6 +168,39 @@ var createNewUser = function (email, fname, lname, dept, job, callback) {
 	});
 };
 
-module.exports = {authenticateUser, getUserById, getUserByName, createNewRequest, getPendingRequests, getDepartments, getJobs, createNewUser, getRequestById, getPosts};
+
+var updateUserAndPass = function (email, tempUName, tempPWord, newUName, newPWord) {
+    // set up db connection
+    var con = sql.createConnection({
+        host: "107.180.1.16",
+        user: "2021group3",
+        password: "group32021",
+        database: "2021group3"
+    });
+    console.log("CALL updateUserAndPass('" + email + "','" + tempUName + "','" + tempPWord + "','" + newUName + "','" + newPWord + "')");
+    con.query("CALL updateUserAndPass('" + email + "','" + tempUName + "','" + tempPWord + "','" + newUName + "','" + newPWord + "')", function (err, result) {
+        if (err) throw err;
+        console.log('addNewRequest SP: ' + JSON.stringify(result[0][0].id));
+        con.end();
+        return callback(null, JSON.stringify(result[0][0].id));
+    });
+}
 
 
+var addComment = function (uID, comment) {
+    // set up db connection
+    var con = sql.createConnection({
+        host: "107.180.1.16",
+        user: "2021group3",
+        password: "group32021",
+        database: "2021group3"
+    });
+    console.log("CALL addComment('" + id + "','" + comment + "')");
+    con.query("CALL addComment('" + id + "','" + comment + "')", function (err, result) {
+        if (err) throw err;
+        console.log('addNewRequest SP: ' + JSON.stringify(result[0][0].id));
+        con.end();
+        return callback(null, JSON.stringify(result[0][0].id));
+})
+
+    module.exports = { authenticateUser, getUserById, getUserByName, createNewRequest, getPendingRequests, getDepartments, getJobs, createNewUser, getRequestById, getPosts, updateUserAndPass, addComment };

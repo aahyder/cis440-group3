@@ -53,7 +53,10 @@ router.get('/home', (req, res, next) => {
         console.log(fullname);
         if(user.UserTypeID = 3) {
             console.log('user is manager');
-            res.render('home.ejs', {username: fullname})
+            res.render('home.ejs', { username: fullname })
+        } else if (user.UserTypeID = 1) {
+            console.log('user is admin')
+            res.render('admin.ejs', { username: fullname })
         } else {
             console.log('regular user');
             res.render('home.ejs', {username: user.UserName});
