@@ -3,11 +3,13 @@
 const express = require('express');
 const User = require('../models/user');
 const Request = require('../models/request');
+const Post = require('../models/post')
 const router = express.Router();
 
 // initialize model objects
 const user = new User();
 const request = new Request();
+const post = new Post();
 
 // GET requests
 router.get('/', (req, res, next) => {
@@ -28,7 +30,7 @@ router.get('/index', (req, res, next) => {
     if(user) {
         var user = JSON.parse(user);
         console.log(user.UserTypeID);
-        if(user.UserTypeID = 1) {
+        if(user.UserTypeID == 1) {
             request.list(function(result) {
                 console.log('index post admin: '+result)
                 var data = JSON.parse(result);
@@ -37,7 +39,13 @@ router.get('/index', (req, res, next) => {
                 
             });
         } else {
-            res.render('index.ejs', {username: user.UserName});
+            post.list(function (result) {
+                console.log('index post home: ' + result)
+                var data = JSON.parse(result);
+                console.log(data);
+                res.render('index.ejs', { username: user.UserName, data: data });
+
+            });
         }
         return;
     }
@@ -60,7 +68,7 @@ router.get('/admin', (req, res, next) => {
         var user = JSON.parse(user);
         console.log(user.UserTypeID)
         if (user.UserTypeID = 1){
-            request.list(function(result) {
+            post.list(function(result) {
                 console.log('index post admin: '+result)
                 var data = JSON.parse(result);
                 console.log(data);
