@@ -201,6 +201,7 @@ var addComment = function (uID, comment) {
         console.log('addNewRequest SP: ' + JSON.stringify(result[0][0].id));
         con.end();
         return callback(null, JSON.stringify(result[0][0].id));
-})
+    });
+}
 
-    module.exports = { authenticateUser, getUserById, getUserByName, createNewRequest, getPendingRequests, getDepartments, getJobs, createNewUser, getRequestById, getPosts, updateUserAndPass, addComment };
+module.exports = { authenticateUser, getUserById, getUserByName, createNewRequest, getPendingRequests, getDepartments, getJobs, createNewUser, getRequestById, getPosts, updateUserAndPass, addComment };
