@@ -8,21 +8,21 @@ Request.prototype = {
     find : function(request = null, callback) {
         if(request) {
             var id = request;
-            console.log(user + " " + id);
+            console.log(request + " " + id);
             dataServices.getRequestById(id, function(err, result){
                 if (err) throw err;
-                console.log('request find: '+result[0]);
+                console.log('request find: '+result);
                 // return sp data to callback
-                callback(result[0]);
+                callback(result);
             });
         }
     },
     // insert new request data
-    create : function(name, email, callback) {
-        dataServices.createNewRequest(name, email, function(err, result){
+    create : function(email, fname, lname, dept, job, callback) {
+        dataServices.createNewRequest(email, fname, lname, dept, job, function(err, result){
             if(err) throw err;
-            console.log('create request: '+result[0]);
-            callback(result[0]);
+            console.log('create request: '+result);
+            callback(result);
         });
 
     },
@@ -30,9 +30,8 @@ Request.prototype = {
     approve : function(request = null, user = null, callback) {
         if(request && user) {
             var id = request;
-            var apprDate = Date.now;
             var apprMgr = user.UserID;
-            dataServices.approveUserById(id, apprMgr, apprDate, function(err, result){
+            dataServices.approveUserById(id, apprMgr, function(err, result){
                 if(err) throw err;
                 console.log('request approve: '+result[0]);
                 /// return sp data to callback

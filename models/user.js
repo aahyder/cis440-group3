@@ -9,7 +9,6 @@ User.prototype = {
     find : function(user = null, callback) {
         if(user) {
             var id = user;
-            console.log(user + " " + id);
             dataServices.getUserByName(id, function(err, result){
                 if (err) throw err;
                 console.log('user find: '+result[0]);
@@ -19,8 +18,15 @@ User.prototype = {
         }
     },
     // insert new user data
-    create : function(body, callback) {
-        //TODO
+    create : function(request, callback) {
+        if(request) {
+            var id = request;
+            dataServices.createNewUser(id, function(err, result){
+                if(err) throw err;
+                console.log('user create'+result[0]);
+                callback(result[0]);
+            });
+        }
     },
     // delete user data
     delete : function(id, callback) {

@@ -1,0 +1,73 @@
+/* admin.css */
+body {
+    padding-top: 0px;
+}
+
+input[type="submit"] {
+    background: none;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    cursor: pointer;
+}
+  
+input[type="submit"]:hover {
+    color: lightblue;
+}
+
+.adminPanel {
+    margin-top: 20px;
+}
+
+.close {
+    color: white;
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    font-size: 35px;
+    font-weight: bold;
+  }
+  
+.close:hover,
+.close:focus {
+    color: #999;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal {
+    background: rgba(0,0,0,0.5);
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding: 10% 15% 10% 15%;
+    max-width: auto;
+    max-height: auto;
+    overflow: auto;
+    margin: 0 auto;
+  }
+  
+.modal-content {
+    position: relative;
+    text-align: center;
+    display: block;
+    background-color: #fefefe;
+    padding-top: 30px;
+    width: 400px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.modal-content label {
+    font-weight: bold;
+}
+
+input[type="text"] {
+    color: darkgrey;
+    text-align: center;
+}
+
+label {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
