@@ -11,9 +11,9 @@ Request.prototype = {
             console.log(request + " " + id);
             dataServices.getRequestById(id, function(err, result){
                 if (err) throw err;
-                console.log('request find: '+result[0]);
+                console.log('request find: '+result);
                 // return sp data to callback
-                callback(result[0]);
+                callback(result);
             });
         }
     },

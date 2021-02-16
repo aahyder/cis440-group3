@@ -45,23 +45,26 @@ var getJobTitles = async function (value) {
       for(var i=0; i<elements.length; i++) {
         elements[i].remove();
         document.getElementById("job-dropdown").innerHTML = "<option value='' disabled selected>Select Department</option>";
-      }
-      
+      } 
     }
     try {
       var department = value;
       var jobSelect = document.getElementById("job-dropdown");
       if(department > 0) {
         await jobTitles(department, function(result) {
-          var data = JSON.parse(result);
+          var data = result;
           console.log(data);
-          for(var i=0; i<data.length; i++) {
-            var elem = document.createElement("option");
-            elem.className = "job-option";
-            elem.value = data[i].JobTitleID;
-            elem.innerHTML = data[i].JobTitle;
-            console.log(elem);
-            jobSelect.appendChild(elem);
+          var len = Object.keys(data).length - 1;
+          console.log(data);
+          if(len > 0) {
+            for(var i=0; i<len; i++) {
+              var elem = document.createElement("option");
+              elem.className = "job-option";
+              elem.value = data[i].JobTitleID;
+              elem.innerHTML = data[i].JobTitle;
+              console.log(elem);
+              jobSelect.appendChild(elem);
+            }
           }
           console.log(jobSelect);
         });

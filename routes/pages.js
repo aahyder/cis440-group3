@@ -31,8 +31,8 @@ router.get('/index', (req, res, next) => {
         console.log(user.UserTypeID);
         if(user.UserTypeID = 1) {
             res.redirect('/admin');
-        } else if(user.UserTYpe = 2) {
-            res.redirect('/management');
+        } else if(user.UserTypeID = 3) {
+            res.redirect('/home');
         }else {
             res.redirect('/home');
         }
@@ -44,9 +44,18 @@ router.get('/index', (req, res, next) => {
 router.get('/home', (req, res, next) => {
     var user = req.session.user;
     console.log(user);
+    console.log('home get');
     if(user) {
         var user = JSON.parse(user);
-        res.render('home.ejs', {username: user.UserName});
+        var fullname = user.FirstName + " " + user.LastName;
+        console.log(fullname);
+        if(user.UserTypeID = 3) {
+            console.log('user is manager');
+            res.render('home.ejs', {username: fullname})
+        } else {
+            console.log('regular user');
+            res.render('home.ejs', {username: user.UserName});
+        }
     } else {
         res.redirect('/');
     }

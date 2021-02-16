@@ -18,14 +18,24 @@ const getRequest = async function(request, callback) {
   });
 };
 
-function openModal(request) {
-    document.getElementById("myModal").style.display = "block";
-    var id = request;
-    getRequest(id, function(result) {
-        var data = result;
-        document.getElementById("static").value = data.AccountRequestID;
+async function openModal(request) {
+  document.getElementById("myModal").style.display = "block";
+  var id = request;
+  try {
+    await getRequest(id, function(result) {
+        var data = JSON.parse(result);
+        console.log(data);
+        document.getElementById("staticId").value = data.AccountRequestID;
+        document.getElementById("staticFirstName").value = data.RequestFirstName;
+        document.getElementById("staticLastName").value = data.RequestLastName;
+        document.getElementById("staticEmail").value = data.RequestEmail;
+        document.getElementById("staticDepartment").value = data.DepartmentID;
+        document.getElementById("staticJob").value = data.JobTitleID;
     });
+  } catch (error) {
+    alert(error.toString());
   }
+}
   
 function closeModal() {
     document.getElementById("myModal").style.display = "none";

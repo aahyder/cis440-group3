@@ -79,8 +79,8 @@ var getJobs = function (id, callback) {
 	con.query("CALL checkJobs("  + id + ")", function (err, result) {
 		if (err) throw err;
 		con.end();
-		console.log('checkJobs SP: '+JSON.stringify(result[0]));
-		return callback(null, JSON.stringify(result[0]));
+		console.log('checkJobs SP: '+JSON.stringify(result[0][0]));
+		return callback(null, JSON.stringify(result[0][0]));
 	});
 };
 
