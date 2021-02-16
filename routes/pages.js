@@ -43,7 +43,7 @@ router.get('/index', (req, res, next) => {
                 console.log('index post home: ' + result)
                 var data = JSON.parse(result);
                 console.log(data);
-                res.render('index.ejs', { username: user.UserName, data: data });
+                res.render('home.ejs', { username: user.UserName, data: data });
 
             });
         }
