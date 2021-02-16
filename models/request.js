@@ -11,7 +11,7 @@ Request.prototype = {
             console.log(request + " " + id);
             dataServices.getRequestById(id, function(err, result){
                 if (err) throw err;
-                console.log('request find: '+result);
+                console.log('request find: '+JSON.stringify(result));
                 // return sp data to callback
                 callback(result);
             });
@@ -27,15 +27,14 @@ Request.prototype = {
 
     },
     // approve request
-    approve : function(request = null, user = null, callback) {
-        if(request && user) {
+    approve : function(request = null, callback) {
+        if(request) {
             var id = request;
-            var apprMgr = user.UserID;
-            dataServices.approveUserById(id, apprMgr, function(err, result){
+            dataServices.approveUserById(id, function(err, result){
                 if(err) throw err;
-                console.log('request approve: '+result[0]);
+                console.log('request approve: '+result);
                 /// return sp data to callback
-                callback(result[0]);
+                callback(result);
             });
         }
     },

@@ -22,7 +22,7 @@
     <input type="text" id="inputFirstName" class="form-control" placeholder="First Name" name='fname' required>
 	<input type="text" id="inputLastName" class="form-control" placeholder="Last Name" name='lname' required>
 	<select id="department-dropdown" onchange="selectDepartment()" required>
-		<option value="" disabled selected>Select Department</option>
+		<option value="default" disabled selected>Select Department</option>
 		<% data.forEach(function(d) {%>
 		<option class="department-options" value="<%= d.DepartmentID %>"><%= d.DepartmentName %></option>
 		<% }); %>
@@ -30,7 +30,7 @@
 	<select id="job-dropdown" required>
 		<option class="job-option" value="default" disabled selected>Select Job Title</option>
 	</select>
-    <button id="submit" class="w-100 btn btn-lg btn-primary" type="submit" onclick="submitRequest(this.form)" style="margin-top: 10px; margin-bottom: 10px;">Submit</button>
+    <button class="w-100 btn btn-lg btn-primary" type="submit" onclick="submitRequest(this.form)" style="margin-top: 10px; margin-bottom: 10px;">Submit</button>
 	<span>Have an account? Log in <a href="/">here</a></span>
     <p class="mt-5 mb-3 text-muted">&copy; 2017-2021</p>
   </form>

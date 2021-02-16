@@ -36,8 +36,6 @@
             width: 800px;
             margin: 30px auto;
         }
-        
-        
     </style>
     <!-- Custom styles for this template -->
     <link href="signin.css" rel="stylesheet">
@@ -70,28 +68,39 @@
             <p class="mt-5 mb-3 text-muted">&copy; 2017-2021</p>
         </form>
     </div>
-    <div id="homePanel" class="contentPanel fixed-top container row-fluid">
-      <h1 class="h3 mb-3 fw-normal row d-flex justify-content-center">Home</h1>
-      <h1 class="h5 mb-3 fw-normal row d-flex justify-content-center">create new post</h1>
-      <div class="row  d-flex justify-content-center">
-        <form class="col-8">
-          <input class="form-control form-control-lg" id="newPostTitle" type="text" placeholder="Title"></input>
-          <textarea class="form-control" id="newPostContent" rows="4" placeholder="Write Something...."></textarea>
-          <button id="submit" class="w-100 btn btn-lg btn-primary col-4" type="submit">Sign In</button>
+    <div id="newAccountPanel" class="contentPanel newAccountPanel fixed-top">
+        <form action="/examples/actions/confirmation.php" method="post">
+            <h2>Sign Up</h2>
+            <p>Fill out this form to request an account!</p>
+            <hr>
+            <div class="form-group">
+                <input type="text" class="form-control" name="id" placeholder="ID #" required="required">
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" name="email" placeholder="Email" required="required">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+            </div>
+            <div class="form-group">
+                <button class="w-25 btn btn-lg btn-primary" type="submit">Submit Request</button>
+            </div>
         </form>
-      </div>
-      <h1 class="h5 mb-3 mt-5 fw-normal row d-flex justify-content-center">recent posts</h1>
-      <div class="row">
-      <% data.forEach(function(d) {%>
-      <div class="card" style="width: 18rem;">
-          <div class="card-body">
-            <h5 class="card-title"><%= d.SubjectLine %></h5>
-            <p class="card-text"><%= d.PostContent %></p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
+    </div>
+    <div id="homePanel" class="contentPanel fixed-top">
+        <h1 class="h3 mb-3 fw-normal">Home</h1>
+    </div>
+    <div id="adminPanel" class="contentPanel fixed-top">
+        <h1 class="h3 mb-3 fw-normal">Administration</h1>
+        <div id="requestsPanel" class="contentPanel">
+            <div class="left">Account requests</div>
+            <hr />
+            <div class="accountsBox" id="requestsBox">
+            </div>
         </div>
-      <% }); %>
-      </div>
+    </div>
+    <div id="managementPanel" class="contentPanel fixed-top">
+        <h1 class="h3 mb-3 fw-normal">Management</h1>
     </div>
 </body>
     <script type="text/javascript">

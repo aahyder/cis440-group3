@@ -28,9 +28,9 @@ var submitRequest = function(form) {
   var email = document.getElementById('inputEmail').value;
   var first = document.getElementById('inputFirstName').value;
   var last = document.getElementById('inputLastName').value;
-  if(job !== 'default' && dept !=='default'){
-    form.action = "/request?email="+email+"&dept="+dept+"&title="+job+"&fname="+first+"&lname="+last;
-    console.log(form.action);
+  if(job > 0 && dept > 0){
+    window.alert("/request?email="+email+"&dept="+dept.toString()+"&title="+job.toString()+"&fname="+first+"&lname="+last);
+    form.action = "/request?email="+email+"&dept="+dept.toString()+"&title="+job.toString()+"&fname="+first+"&lname="+last;
     form.submit();
   } else {
     window.alert('You must pick a department and job title');
@@ -52,11 +52,12 @@ var getJobTitles = async function (value) {
       var jobSelect = document.getElementById("job-dropdown");
       if(department > 0) {
         await jobTitles(department, function(result) {
-          var data = result;
+          var data = JSON.parse(result);
           console.log(data);
-          var len = Object.keys(data).length - 1;
-          console.log(data);
-          if(len > 0) {
+          var len = Object.keys(data).length;
+          console.log(len);
+          console.log(data[0]);
+          if(len > 1) {
             for(var i=0; i<len; i++) {
               var elem = document.createElement("option");
               elem.className = "job-option";
@@ -65,6 +66,13 @@ var getJobTitles = async function (value) {
               console.log(elem);
               jobSelect.appendChild(elem);
             }
+          } else {
+            var elem = document.createElement("option");
+            elem.className = "job-option";
+            elem.value = data.JobTitleID;
+            elem.innerHTML = data.JobTitle;
+            console.log(elem);
+            jobSelect.appendChild(elem);
           }
           console.log(jobSelect);
         });
@@ -72,6 +80,6 @@ var getJobTitles = async function (value) {
         alert('Please select department before selecting job title');
       }
     } catch (error) {
-      alert(error.toString());
+      throw error;//alert(error.toString());
     }
 };

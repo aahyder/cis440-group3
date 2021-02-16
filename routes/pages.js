@@ -6,14 +6,12 @@ const router = express.Router();
 // set up models
 const User = require('../models/user');
 const Request = require('../models/request');
-const Post = require('../models/post')
 const Department = require('../models/department');
 const Job = require('../models/job')
 
 // initialize models
 const user = new User();
 const request = new Request();
-const post = new Post();
 const deparment = new Department();
 const job = new Job();
 
@@ -28,14 +26,14 @@ router.get('/', (req, res, next) => {
 
 router.get('/index', (req, res, next) => {
     var user = req.session.user;
-    if (user) {
+    if(user) {
         var user = JSON.parse(user);
         console.log(user.UserTypeID);
-        if (user.UserTypeID = 1) {
+        if(user.UserTypeID = 1) {
             res.redirect('/admin');
-        } else if (user.UserTypeID = 3) {
+        } else if(user.UserTypeID = 3) {
             res.redirect('/home');
-        } else {
+        }else {
             res.redirect('/home');
         }
     } else {
@@ -53,10 +51,7 @@ router.get('/home', (req, res, next) => {
         console.log(fullname);
         if(user.UserTypeID = 3) {
             console.log('user is manager');
-            res.render('home.ejs', { username: fullname })
-        } else if (user.UserTypeID = 1) {
-            console.log('user is admin')
-            res.render('admin.ejs', { username: fullname })
+            res.render('home.ejs', {username: fullname})
         } else {
             console.log('regular user');
             res.render('home.ejs', {username: user.UserName});
@@ -68,24 +63,23 @@ router.get('/home', (req, res, next) => {
 
 router.get('/admin', (req, res, next) => {
     var user = req.session.user;
-    if (user) {
+    if(user) {
         var user = JSON.parse(user);
         console.log(user.UserTypeID)
-        if (user.UserTypeID == 1) {
-            request.list(function (result) {
-                console.log('admin get: ' + result)
+        if (user.UserTypeID == 1){
+            request.list(function(result) {
+                console.log('admin get: '+result)
                 var data = JSON.parse(result);
                 console.log(data);
-                res.render('admin.ejs', { username: user.UserName, data: data });
-
+                res.render('admin.ejs', {username: user.UserName, data: data}); 
             });
         }
         else {
-            res.redirect('/home');
+            res.redirect('/home');  
         }
     } else {
         res.redirect('/');
-    }
+    }  
 });
 
 router.get('/login', (req, res, next) => {
@@ -145,12 +139,11 @@ router.post('/approve', (req, res, next) => {
 });
 
 router.post('/request', (req, res, next) => {
-    var mail = req.body.email;
-    var dept = req.body.dept;
-    var title = req.body.job;
-    var fname = req.body.fname;
-    var lname = req.body.lname;
-    console.log(fname+" "+lname);
+    var mail = req.query.email;
+    var dept = req.query.dept;
+    var title = req.query.title;
+    var fname = req.query.fname;
+    var lname = req.query.lname;
     request.create(mail, fname, lname, dept, title, function(result){
         console.log('request post: '+result);
         if (result == 1) {
@@ -173,7 +166,7 @@ router.post('/new-request', (req, res, next) => {
     var id = req.query.id;
     request.find(id, function(result){
         console.log("new-request post: "+result);
-        res.end(JSON.stringify(result));
+        res.end(result);
     });
 });
 
