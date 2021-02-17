@@ -56,8 +56,8 @@
                             <td><%= d.RequestFirstName %></td>
                             <td><%= d.RequestLastName %></td>
                             <td><%= d.RequestEmail %></td>
-                            <td><button type="button" class="btn btn-success" onclick="openModal(<%= d.AccountRequestID %>)">Yes</button></td>
-                            <td><button type="button" class="btn btn-danger">No</button></td>
+                            <td><button type="button" class="btn btn-success" onclick="openModal(<%= d.AccountRequestID %>, 'myModal')">Yes</button></td>
+                            <td><button type="button" class="btn btn-danger" onclick="openModal(<%= d.AccountRequestID %>, 'denyModal')">No</button></td>
                           </tr>
                         <% }); %>
                         </tbody>
@@ -80,6 +80,18 @@
                             <label>Request Job Title</label>
                             <input type="text" readonly class="form-control-plaintext" id="staticJob" value="email@example.com">
                             <button class="w-100 btn btn-lg btn-primary" type="submit" onclick="submitApproval(this.form)" style="margin-top: 10px; border-radius: 0px;">Approve</button>
+                        </form>
+                    </div>
+                </div>
+                <div id="denyModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close cursor" onclick="closeModal()" style="color: black;">&times;</span>
+                        <form action="/approve" method="post">
+                            <h1 class="h3 mb-3 fw-normal">Request Denial</h1>
+                            <input type="text" hidden class="form-control-plaintext" id="staticDenyId" value="email@example.com">
+                            <label style="padding-bottom: 10px;">Denial Reason</label>
+                            <textarea class="form-control" id="staticReason" rows="5" style="margin: 0 auto; max-width: 300px; margin-bottom: 10px;"></textarea>
+                            <button class="w-100 btn btn-lg btn-primary" type="submit" onclick="submitDenial(this.form)" style="margin-top: 10px; border-radius: 0px;">Deny</button>
                         </form>
                     </div>
                 </div>

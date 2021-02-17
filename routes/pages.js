@@ -7,13 +7,15 @@ const router = express.Router();
 const User = require('../models/user');
 const Request = require('../models/request');
 const Department = require('../models/department');
-const Job = require('../models/job')
+const Job = require('../models/job');
+const Post = require('../models/post');
 
 // initialize models
 const user = new User();
 const request = new Request();
 const deparment = new Department();
 const job = new Job();
+const post = new Post();
 
 // GET requests
 router.get('/', (req, res, next) => {
@@ -29,12 +31,22 @@ router.get('/index', (req, res, next) => {
     if(user) {
         var user = JSON.parse(user);
         console.log(user.UserTypeID);
-        if(user.UserTypeID = 1) {
+        if(user.UserTypeID == 1) {
             res.redirect('/admin');
-        } else if(user.UserTypeID = 3) {
-            res.redirect('/home');
+        } else if(user.UserTypeID == 3) {
+            post.list(function (result) {
+                console.log('index post home: ' + result)
+                var data = JSON.parse(result);
+                console.log(data);
+                res.render('home.ejs', { username: user.UserName, data: data });
+            });
         }else {
-            res.redirect('/home');
+            post.list(function (result) {
+                console.log('index post home: ' + result)
+                var data = JSON.parse(result);
+                console.log(data);
+                res.render('home.ejs', { username: user.UserName, data: data });
+            });
         }
     } else {
         res.redirect('/');
@@ -49,12 +61,17 @@ router.get('/home', (req, res, next) => {
         var user = JSON.parse(user);
         var fullname = user.FirstName + " " + user.LastName;
         console.log(fullname);
-        if(user.UserTypeID = 3) {
+        if(user.UserTypeID == 3) {
             console.log('user is manager');
             res.render('home.ejs', {username: fullname})
         } else {
             console.log('regular user');
-            res.render('home.ejs', {username: user.UserName});
+            post.list(function (result) {
+                console.log('home get: ' + result)
+                var data = JSON.parse(result);
+                console.log(data);
+                res.render('home.ejs', { username: user.UserName, data: data });
+            });
         }
     } else {
         res.redirect('/');
@@ -126,9 +143,26 @@ router.post('/login', (req, res, next) => {
 
 router.post('/approve', (req, res, next) => {
     var user = req.session.user;
-    if(user) {
+    var user = JSON.parse(user);
+    console.log(user.UserTypeID)
+    if(user.UserTypeID == 1) {
         request.approve(req.query.id, function(result){
             console.log('approve post: '+result);
+            if(result) {
+                res.redirect('/admin');
+            }
+        });
+    } else {
+        res.send('access denied');      
+    }
+});
+
+router.post('/deny', (req, res, next) => {
+    var user = req.session.user;
+    var user = JSON.parse(user);
+    if(user.UserTypeID == 1) {
+        request.deny(req.query.id, res.query.reason, function(result){
+            console.log('deny post: '+result);
             if(result) {
                 res.redirect('/admin');
             }

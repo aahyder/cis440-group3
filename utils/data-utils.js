@@ -52,6 +52,39 @@ var approveUserById = function (id, callback) {
 	});
 };
 
+var denyUserById = function (id, reason, callback) {
+	// set up db connection
+	var con = sql.createConnection({
+		host: "107.180.1.16",
+		user: "2021group3",
+		password: "group32021",
+		database: "2021group3"
+	});
+	console.log("CALL denyUserById('" + id + "','"+reason+"')");
+	con.query("CALL denyUserById('" + id + "','"+reason+"')", function (err, result) {
+		if (err) throw err;
+		con.end();
+		console.log('denyUserById SP: '+result[0][0].DenyUser);
+		return callback(null, result[0][0].DenyUser);
+	});
+};
+
+var getPosts = function (callback) {
+    // set up db connection
+    var con = sql.createConnection({
+        host: "107.180.1.16",
+        user: "2021group3",
+        password: "group32021",
+        database: "2021group3"
+    });
+    con.query("CALL checkPosts()", function (err, result) {
+        if (err) throw err;
+        con.end();
+        console.log('checkPosts SP: ' + JSON.stringify(result[0]));
+        return callback(null, JSON.stringify(result[0]));
+    });
+};
+
 var getRequestById = function (id, callback) {
 	// set up db connection
 	var con = sql.createConnection({
@@ -168,5 +201,39 @@ var createNewUser = function (email, fname, lname, dept, job, callback) {
 	});
 };
 
-module.exports = {authenticateUser, getUserById, getUserByName, createNewRequest, getPendingRequests, getDepartments, getJobs, createNewUser, getRequestById, approveUserById};
+var updateUserAndPass = function (email, tempUName, tempPWord, newUName, newPWord) {
+    // set up db connection
+    var con = sql.createConnection({
+        host: "107.180.1.16",
+        user: "2021group3",
+        password: "group32021",
+        database: "2021group3"
+    });
+    console.log("CALL updateUserAndPass('" + email + "','" + tempUName + "','" + tempPWord + "','" + newUName + "','" + newPWord + "')");
+    con.query("CALL updateUserAndPass('" + email + "','" + tempUName + "','" + tempPWord + "','" + newUName + "','" + newPWord + "')", function (err, result) {
+        if (err) throw err;
+        console.log('addNewRequest SP: ' + JSON.stringify(result[0][0].id));
+        con.end();
+        return callback(null, JSON.stringify(result[0][0].id));
+    });
+}
+
+var addComment = function (uID, comment) {
+    // set up db connection
+    var con = sql.createConnection({
+        host: "107.180.1.16",
+        user: "2021group3",
+        password: "group32021",
+        database: "2021group3"
+    });
+    console.log("CALL addComment('" + id + "','" + comment + "')");
+    con.query("CALL addComment('" + id + "','" + comment + "')", function (err, result) {
+        if (err) throw err;
+        console.log('addNewRequest SP: ' + JSON.stringify(result[0][0].id));
+        con.end();
+        return callback(null, JSON.stringify(result[0][0].id));
+    });
+}
+
+module.exports = {authenticateUser, getUserById, getUserByName, createNewRequest, getPendingRequests, getDepartments, getJobs, createNewUser, getRequestById, approveUserById, denyUserById, getPosts, updateUserAndPass, addComment};
 

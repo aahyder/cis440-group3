@@ -26,20 +26,6 @@ Post.prototype = {
         });
 
     },
-    // approve request
-    approve: function (request = null, user = null, callback) {
-        if (request && user) {
-            var id = request;
-            var apprDate = Date.now;
-            var apprMgr = user.UserID;
-            dataServices.approveUserById(id, apprMgr, apprDate, function (err, result) {
-                if (err) throw err;
-                console.log('request approve: ' + result[0]);
-                /// return sp data to callback
-                callback(result[0]);
-            });
-        }
-    },
     // get pending requests
     list: function (callback) {
         dataServices.getPosts(function (err, result) {

@@ -38,6 +38,18 @@ Request.prototype = {
             });
         }
     },
+    // deny request
+    deny : function(request = null, reason, callback) {
+        if(request) {
+            var id = request;
+            dataServices.denyUserById(id, reason, function(err, result){
+                if(err) throw err;
+                console.log('request approve: '+result);
+                /// return sp data to callback
+                callback(result);
+            });
+        }
+    },
     // get pending requests
     list : function(callback) {
         dataServices.getPendingRequests(function(err, result) {
