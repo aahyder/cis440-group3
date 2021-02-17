@@ -44,6 +44,7 @@ async function openModal(request, caller) {
           var data = JSON.parse(result);
           console.log("client side get: "+data);
           document.getElementById("staticId").value = data.AccountRequestID;
+          document.getElementById("staticDenyEmail").value = data.RequestEmail;
       });
     } catch (error) {
       alert(error.toString());
@@ -68,7 +69,8 @@ var submitDenial = function(form) {
     console.log(document.getElementById("staticId"));
     var id = document.getElementById("staticId").value;
     var reason = document.getElementById("staticReason").value;
-    form.action = "/deny?id="+id+"&reason="+reason;
-    window.alert("/deny?id="+id+"&reason="+reason);
+    var email = document.getElementById("staticDenyEmail").value;
+    form.action = "/deny?id="+id+"&reason="+reason+"&email="+email
+    window.alert("/deny?id="+id+"&reason="+reason+"&email="+email);
     form.submit();
   }

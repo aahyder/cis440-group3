@@ -32,19 +32,19 @@ Request.prototype = {
             var id = request;
             dataServices.approveUserById(id, function(err, result){
                 if(err) throw err;
-                console.log('request approve: '+result);
+                console.log('request approve: '+JSON.stringify(result));
                 /// return sp data to callback
                 callback(result);
             });
         }
     },
     // deny request
-    deny : function(request = null, reason, callback) {
+    deny : function(request, reason, callback) {
         if(request) {
             var id = request;
             dataServices.denyUserById(id, reason, function(err, result){
                 if(err) throw err;
-                console.log('request approve: '+result);
+                console.log('request deny: '+result);
                 /// return sp data to callback
                 callback(result);
             });

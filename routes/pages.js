@@ -3,6 +3,9 @@
 const express = require('express');
 const router = express.Router();
 
+// set up smtp / email
+const notification = require('../utils/email-utils');
+
 // set up models
 const User = require('../models/user');
 const Request = require('../models/request');
@@ -30,6 +33,7 @@ router.get('/index', (req, res, next) => {
     var user = req.session.user;
     if(user) {
         var user = JSON.parse(user);
+        var fullname = user.FirstName + " " + user.LastName;
         console.log(user.UserTypeID);
         if(user.UserTypeID == 1) {
             res.redirect('/admin');
@@ -38,7 +42,7 @@ router.get('/index', (req, res, next) => {
                 console.log('index post home: ' + result)
                 var data = JSON.parse(result);
                 console.log(data);
-                res.render('home.ejs', { username: user.UserName, data: data });
+                res.render('home.ejs', { username: fullname, data: data });
             });
         }else {
             post.list(function (result) {
@@ -148,6 +152,9 @@ router.post('/approve', (req, res, next) => {
     if(user.UserTypeID == 1) {
         request.approve(req.query.id, function(result){
             console.log('approve post: '+result);
+            var data = JSON.parse(result);
+            console.log(data)
+            notification.emailNotify(data.NewEmail, 'Account Request Approved',"Your request has been approved. Your username is "+data.NewUser+" and your password is "+data.NewPassword+".");
             if(result) {
                 res.redirect('/admin');
             }
@@ -160,10 +167,12 @@ router.post('/approve', (req, res, next) => {
 router.post('/deny', (req, res, next) => {
     var user = req.session.user;
     var user = JSON.parse(user);
+    console.log(req.query.id+" "+req.query.reason);
     if(user.UserTypeID == 1) {
-        request.deny(req.query.id, res.query.reason, function(result){
+        request.deny(req.query.id, req.query.reason, function(result){
             console.log('deny post: '+result);
             if(result) {
+                notification.emailNotify(req.query.email,"Account Request Denied","I'm sorry, but your request was denied for the following reason: "+req.query.reason+".");
                 res.redirect('/admin');
             }
         });
@@ -181,6 +190,7 @@ router.post('/request', (req, res, next) => {
     request.create(mail, fname, lname, dept, title, function(result){
         console.log('request post: '+result);
         if (result == 1) {
+            notification.emailNotify(mail,"Account Request Recieved","Thank you for signing up for a new account. You'll get another email once you're account has been approved or denied.");
             res.redirect('/');
         }else {
             res.send('account already requested');

@@ -43,12 +43,12 @@ var approveUserById = function (id, callback) {
 		password: "group32021",
 		database: "2021group3"
 	});
-	console.log("CALL checkRequestById('" + id + "')");
+	console.log("CALL approveUserById('" + id + "')");
 	con.query("CALL approveUserById('" + id + "')", function (err, result) {
 		if (err) throw err;
 		con.end();
-		console.log('approveUserById SP: '+result[0][0].NewUser);
-		return callback(null, result[0][0].NewUser);
+		console.log('approveUserById SP: '+JSON.stringify(result[0]));
+		return callback(null, JSON.stringify(result[0]));
 	});
 };
 
@@ -64,8 +64,8 @@ var denyUserById = function (id, reason, callback) {
 	con.query("CALL denyUserById('" + id + "','"+reason+"')", function (err, result) {
 		if (err) throw err;
 		con.end();
-		console.log('denyUserById SP: '+result[0][0].DenyUser);
-		return callback(null, result[0][0].DenyUser);
+		console.log('denyUserById SP: '+result[0][0].DenyEmail);
+		return callback(null, result[0][0].DenyEmail);
 	});
 };
 

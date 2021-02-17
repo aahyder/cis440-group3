@@ -89,6 +89,7 @@
                         <form action="/approve" method="post">
                             <h1 class="h3 mb-3 fw-normal">Request Denial</h1>
                             <input type="text" hidden class="form-control-plaintext" id="staticDenyId" value="email@example.com">
+                            <input type="text" hidden class="form-control-plaintext" id="staticDenyEmail" value="email@example.com">
                             <label style="padding-bottom: 10px;">Denial Reason</label>
                             <textarea class="form-control" id="staticReason" rows="5" style="margin: 0 auto; max-width: 300px; margin-bottom: 10px;"></textarea>
                             <button class="w-100 btn btn-lg btn-primary" type="submit" onclick="submitDenial(this.form)" style="margin-top: 10px; border-radius: 0px;">Deny</button>
