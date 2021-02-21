@@ -11,7 +11,7 @@ Post.prototype = {
             console.log(user + " " + id);
             dataServices.getRequestById(id, function (err, result) {
                 if (err) throw err;
-                console.log('request find: ' + result[0]);
+                console.log('post find: ' + result[0]);
                 // return sp data to callback
                 callback(result[0]);
             });
@@ -21,7 +21,7 @@ Post.prototype = {
     create: function (name, email, callback) {
         dataServices.createNewRequest(name, email, function (err, result) {
             if (err) throw err;
-            console.log('create request: ' + result[0]);
+            console.log('create post: ' + result[0]);
             callback(result[0]);
         });
 

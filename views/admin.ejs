@@ -37,7 +37,7 @@
         <div id="panel" class="contentPanel">
             <div id="adminPanel" class="adminPanel">
                 <h1 class="h3 mb-3 fw-normal">Administration</h1>
-                <div class="left">Account requests</div>
+                <div class="left" style="padding-top: 10px;">Account requests</div>
                 <br>
                 <div class="accountsBox" id="requestsBox">
                     <table class="table table-hover table table-striped" style="max-width: 650px; text-align: center; margin: 0 auto;">
@@ -63,6 +63,8 @@
                         </tbody>
                       </table>
                 </div>
+                <div class="left" style="padding-bottom: 15px; padding-top: 20px;">Send Notifications</div>
+                <button type="button" class="btn btn-primary" onclick="openModal(null, 'emailModal')">All-Manager Email</button>
                 <div id="myModal" class="modal">
                     <div class="modal-content">
                         <span class="close cursor" onclick="closeModal()" style="color: black;">&times;</span>
@@ -93,6 +95,19 @@
                             <label style="padding-bottom: 10px;">Denial Reason</label>
                             <textarea class="form-control" id="staticReason" rows="5" style="margin: 0 auto; max-width: 300px; margin-bottom: 10px;"></textarea>
                             <button class="w-100 btn btn-lg btn-primary" type="submit" onclick="submitDenial(this.form)" style="margin-top: 10px; border-radius: 0px;">Deny</button>
+                        </form>
+                    </div>
+                </div>
+                <div id="emailModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close cursor" onclick="closeModal()" style="color: black;">&times;</span>
+                        <form action="/email-managers" method="post">
+                            <h1 class="h3 mb-3 fw-normal">All-Manager Email</h1>
+                            <label style="padding-bottom: 10px;">Subject Line</label>
+                            <textarea class="form-control" id="staticSubject" rows="1" style="margin: 0 auto; max-width: 300px; margin-bottom: 10px;"></textarea>
+                            <label style="padding-bottom: 10px;">Email Body</label>
+                            <textarea class="form-control" id="staticEmailBody" rows="10" style="margin: 0 auto; max-width: 300px; margin-bottom: 10px;"></textarea>
+                            <button class="w-100 btn btn-lg btn-primary" type="submit" onclick="submitEmail(this.form)" style="margin-top: 10px; border-radius: 0px;">Send</button>
                         </form>
                     </div>
                 </div>

@@ -38,7 +38,7 @@ router.get('/index', (req, res, next) => {
         if(user.UserTypeID == 1) {
             res.redirect('/admin');
         } else if(user.UserTypeID == 3) {
-            post.list(function (result) {
+            post.adminList(function (result) {
                 console.log('index post home: ' + result)
                 var data = JSON.parse(result);
                 console.log(data);
@@ -212,6 +212,28 @@ router.post('/new-request', (req, res, next) => {
         console.log("new-request post: "+result);
         res.end(result);
     });
+});
+
+router.post('/email-managers', (req, res, next) => {
+    var subject = req.query.subject;
+    var body = req.query.email;
+    var u = JSON.parse(req.session.user);
+    if(u.UserTypeID == 1) {
+        user.findManagers(function(result){
+            console.log("admin-email post: "+result);
+            var data = JSON.parse(result);
+            console.log(data);
+            var len = Object.keys(data).length;
+            console.log(len);
+            for(var i=0; i<len; i++) {
+                console.log(data[i].EmailAddress+"\n"+subject+"\n"+body)
+                notification.emailNotify(data[i].EmailAddress, subject, body);
+            }
+        });
+        res.redirect('/admin');
+    } else {
+        res.send('Access Denied');        
+    }
 });
 
 module.exports = router;

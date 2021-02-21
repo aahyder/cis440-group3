@@ -150,6 +150,22 @@ var getPendingRequests = function (callback) {
 	});
 };
 
+var getManagerEmails = function (callback) {
+	// set up db connection
+	var con = sql.createConnection({
+		host: "107.180.1.16",
+		user: "2021group3",
+		password: "group32021",
+		database: "2021group3"
+	});
+	con.query("CALL getManagerEmails()", function (err, result) {
+		if (err) throw err;
+		con.end();
+		console.log('getManagerEmails SP: '+JSON.stringify(result[0]));
+		return callback(null, JSON.stringify(result[0]));
+	});
+};
+
 var getUserByName = function (name, callback) {
 	// set up db connection
 	var con = sql.createConnection({
@@ -235,5 +251,6 @@ var addComment = function (uID, comment) {
     });
 }
 
-module.exports = {authenticateUser, getUserById, getUserByName, createNewRequest, getPendingRequests, getDepartments, getJobs, createNewUser, getRequestById, approveUserById, denyUserById, getPosts, updateUserAndPass, addComment};
+module.exports = {authenticateUser, getUserById, getUserByName, createNewRequest, getPendingRequests, getDepartments, getJobs, 
+	createNewUser, getRequestById, approveUserById, denyUserById, getPosts, updateUserAndPass, addComment, getManagerEmails};
 

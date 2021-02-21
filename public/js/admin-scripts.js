@@ -49,12 +49,15 @@ async function openModal(request, caller) {
     } catch (error) {
       alert(error.toString());
     }
+  } else if (caller === "emailModal") {
+    document.getElementById("emailModal").style.display = "block";
   }
 } 
   
 function closeModal() {
     document.getElementById("myModal").style.display = "none";
     document.getElementById("denyModal").style.display = "none";
+    document.getElementById("emailModal").style.display = "none";
 }
 
 var submitApproval = function(form) {
@@ -72,5 +75,13 @@ var submitDenial = function(form) {
     var email = document.getElementById("staticDenyEmail").value;
     form.action = "/deny?id="+id+"&reason="+reason+"&email="+email
     window.alert("/deny?id="+id+"&reason="+reason+"&email="+email);
+    form.submit();
+  }
+
+  var submitEmail = function(form) {
+    var subject = document.getElementById("staticSubject").value;
+    var email = document.getElementById("staticEmailBody").value;
+    form.action = "/email-managers?subject="+subject+"&email="+email
+    window.alert("/email-managers?subject="+subject+"&email="+email);
     form.submit();
   }

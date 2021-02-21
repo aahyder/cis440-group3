@@ -17,6 +17,15 @@ User.prototype = {
             });
         }
     },
+    // query manager emails
+    findManagers : function(callback) {
+        dataServices.getManagerEmails(function(err, result){
+            if (err) throw err;
+            console.log('user manager find: '+result);
+            // return sp data to callback
+            callback(result);
+        });
+    },
     // insert new user data
     create : function(request, callback) {
         if(request) {
