@@ -58,6 +58,8 @@ function closeModal() {
     document.getElementById("myModal").style.display = "none";
     document.getElementById("denyModal").style.display = "none";
     document.getElementById("emailModal").style.display = "none";
+    document.getElementById("staticReason").value = '';
+    document.getElementById("staticDenyEmail").value = '';
 }
 
 var submitApproval = function(form) {

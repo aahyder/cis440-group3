@@ -38,14 +38,14 @@ router.get('/index', (req, res, next) => {
         if(user.UserTypeID == 1) {
             res.redirect('/admin');
         } else if(user.UserTypeID == 3) {
-            post.adminList(function (result) {
+            post.list(user, 1, function (result) {
                 console.log('index post home: ' + result)
                 var data = JSON.parse(result);
                 console.log(data);
                 res.render('home.ejs', { username: fullname, data: data });
             });
         }else {
-            post.list(function (result) {
+            post.list(user, 1, function (result) {
                 console.log('index post home: ' + result)
                 var data = JSON.parse(result);
                 console.log(data);
@@ -70,7 +70,7 @@ router.get('/home', (req, res, next) => {
             res.render('home.ejs', {username: fullname})
         } else {
             console.log('regular user');
-            post.list(function (result) {
+            post.list(user.UserID, 1, function (result) {
                 console.log('home get: ' + result)
                 var data = JSON.parse(result);
                 console.log(data);
@@ -125,6 +125,20 @@ router.get('/request', (req, res, next) => {
         console.log(data);
         res.render('request.ejs', {data: data});  
     });
+});
+
+router.get('/my-issues', (req, res, next) => {
+    var user = JSON.parse(req.session.user);
+    if(user) {
+        if(user.UserTypeID == 2) {
+            post.list(user.UserID, 3, function(result){
+                console.log("my-issues get: "+result);
+                res.end(JSON.stringify(result));
+            });
+        } else {
+            res.render('Access Denied');
+        }
+    }
 });
 
 // POST reqeusts
@@ -231,6 +245,21 @@ router.post('/email-managers', (req, res, next) => {
             }
         });
         res.redirect('/admin');
+    } else {
+        res.send('Access Denied');        
+    }
+});
+
+router.post('/user-post', (req, res, next) => {
+    var subject = req.query.subject;
+    var body = req.query.content;
+    var type = req.query.type;
+    var u = JSON.parse(req.session.user);
+    if(u.UserTypeID !== 1) {
+        post.create(u.UserID, u.UserTypeID, type, subject, body, function(result){
+            console.log("user-post post: "+result);
+            res.redirect('/home');
+        });
     } else {
         res.send('Access Denied');        
     }

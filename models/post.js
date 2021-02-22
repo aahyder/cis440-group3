@@ -11,29 +11,52 @@ Post.prototype = {
             console.log(user + " " + id);
             dataServices.getRequestById(id, function (err, result) {
                 if (err) throw err;
-                console.log('post find: ' + result[0]);
+                console.log('post find call ' + result[0]);
                 // return sp data to callback
                 callback(result[0]);
             });
         }
     },
-    // insert new request data
-    create: function (name, email, callback) {
-        dataServices.createNewRequest(name, email, function (err, result) {
-            if (err) throw err;
-            console.log('create post: ' + result[0]);
-            callback(result[0]);
-        });
-
+    // insert new post data by user type
+    create: function (user, utype, type, subject, body, callback) {
+        if (utype == 2) {
+            dataServices.createNewIssue(user, subject, body, type, function (err, result) {
+                if (err) throw err;
+                console.log('post create call: ' + result);
+                callback(result);
+            });
+        } else if (utype == 3) {
+            //TODO
+        } else {
+            //TODO
+        }
     },
-    // get pending requests
-    list: function (callback) {
-        dataServices.getPosts(function (err, result) {
-            if (err) throw err;
-            console.log('Post call: ' + result);
-            // return sp data to callback
-            callback(result);
-        });
+    // get posts by user type
+    list: function (user, type, callback) {
+        if(user) {
+            if(type == 3) {
+                dataServices.getMyIssues(user, function (err, result) {
+                    if (err) throw err;
+                    console.log('post list type 3 call: ' + result);
+                    // return sp data to callback
+                    callback(result);
+                });
+            } else if(type == 2) {
+                dataServices.getAllIssues(function (err, result) {
+                    if (err) throw err;
+                    console.log('post list type 2 call: ' + result);
+                    // return sp data to callback
+                    callback(result);
+                });
+            } else {
+                dataServices.getPosts(function (err, result) {
+                    if (err) throw err;
+                    console.log('post list default call: ' + result);
+                    // return sp data to callback
+                    callback(result);
+                });
+            }
+        }
     }
 }
 
