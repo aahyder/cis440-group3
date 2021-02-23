@@ -61,12 +61,12 @@
             <h5 style="padding-bottom: 15px; padding-top: 20px;">Recent Topics</h5>
             <div class="row">
             <% data.forEach(function(d) {%>
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 18rem; margin: 0 auto; margin-bottom: 10px;">
                 <div class="card-body">
                   <h5 class="card-title"><%= d.SubjectLine %></h5>
                   <p class="card-text"><%= d.PostContent %></p>
                   <form action='/view-post?id=<%= d.UserPostID %>' method='post'>
-                    <button type='submit'>View Full Post</button>
+                    <button type='submit' class="btn btn-link">View Full Post</button>
                   </form>
                 </div>
               </div>

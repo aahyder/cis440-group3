@@ -159,6 +159,23 @@ router.post('/login', (req, res, next) => {
     });
 });
 
+router.post('/view-post', (req, res, next) => {
+    var id = req.query.id;
+    var user = JSON.parse(req.session.user);
+    var fullname = user.FirstName + " " + user.LastName;
+    post.find(id, function(result){
+        console.log("view-post get: "+result);
+        var data = JSON.parse(result);
+        console.log(data);
+        console.log(data[0]);
+        if(user.UserTypeID == 3) {
+            res.render('post.ejs', {username: fullname, data: data});
+        } else {
+            res.render('post.ejs', {username: user.UserName, data: data[0]});
+        }
+    });
+});
+
 router.post('/approve', (req, res, next) => {
     var user = req.session.user;
     var user = JSON.parse(user);

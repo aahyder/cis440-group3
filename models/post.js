@@ -8,12 +8,11 @@ Post.prototype = {
     find: function (request = null, callback) {
         if (request) {
             var id = request;
-            console.log(user + " " + id);
-            dataServices.getRequestById(id, function (err, result) {
+            dataServices.getPostById(id, function (err, result) {
                 if (err) throw err;
-                console.log('post find call ' + result[0]);
+                console.log('post find call ' + result);
                 // return sp data to callback
-                callback(result[0]);
+                callback(result);
             });
         }
     },

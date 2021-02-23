@@ -85,6 +85,22 @@ var getPosts = function (callback) {
     });
 };
 
+var getPostById = function (id, callback) {
+	// set up db connection
+	var con = sql.createConnection({
+		host: "107.180.1.16",
+		user: "2021group3",
+		password: "group32021",
+		database: "2021group3"
+	});
+	con.query("CALL checkPostById('" + id + "')", function (err, result) {
+		if (err) throw err;
+		con.end();
+		console.log('getPostById SP: '+JSON.stringify(result[0]));
+		return callback(null, JSON.stringify(result[0]));
+	});
+};
+
 var getMyIssues = function (id, callback) {
     // set up db connection
     var con = sql.createConnection({
@@ -287,5 +303,5 @@ var createNewIssue = function (uID, sub, content, type, callback) {
 
 module.exports = {authenticateUser, getUserById, getUserByName, createNewRequest, getPendingRequests, getDepartments, getJobs, 
 	createNewUser, getRequestById, approveUserById, denyUserById, getPosts, updateUserAndPass, addComment, getManagerEmails,
-	createNewIssue, getMyIssues};
+	createNewIssue, getMyIssues, getPostById};
 

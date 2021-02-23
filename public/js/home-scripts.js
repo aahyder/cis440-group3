@@ -66,6 +66,7 @@ async function openModal(caller) {
                 viewForm.action = "/view-post?id=" + data[i].UserPostID;
                 viewForm.method = "post";
                 submitButton.type = "submit";
+                submitButton.className = "btn btn-link";
                 submitButton.innerHTML = "View Full Issue";
                 viewForm.appendChild(submitButton);
                 cardBody.appendChild(cardTitle);

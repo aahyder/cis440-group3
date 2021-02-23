@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CIS440 - Home</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/home-scripts.js"></script>
+    <meta name="theme-color" content="#7952b3">
+    <!-- Custom styles for this template -->
+    <link href="css/main.css" rel="stylesheet">
+    <link href="css/home.css" rel="stylesheet">
+</head>
+<body class="text-center">
+    <div class="titlecontainer"></div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Hi <%= username %></a>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <form action="/home" method="get" class="nav-item nav-link">
+                        <input type="submit" class="nav-item nav-link" style="font-weight: bold;" value="Home"></input>
+                    </form>
+                    <form action="/admin" method="get" class="nav-item nav-link">
+                        <input type="submit" class="nav-item nav-link" value="Admin"></input>
+                    </form>
+                    <form action="/logout" method="get" class="nav-item nav-link">
+                        <input type="submit" class="nav-item nav-link" value="Logout"></input>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <div id="homePanel" class="contentPanel fixed-top container row-fluid">
+            <h1 class="h3 mb-3 fw-normal row d-flex justify-content-center">Post</h1>
+            <h5><%= data.SubjectLine %></h5>
+            <p><%= data.PostContent %></p>
+            <p>By: <%= data.PostUser %></p> 
+            <h1 class="h3 mb-3 fw-normal row d-flex justify-content-center">Comments</h1>
+      </body>
+</html>
