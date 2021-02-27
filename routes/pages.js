@@ -12,6 +12,7 @@ const Request = require('../models/request');
 const Department = require('../models/department');
 const Job = require('../models/job');
 const Post = require('../models/post');
+const Comment = require('../models/comment');
 
 // initialize models
 const user = new User();
@@ -19,6 +20,7 @@ const request = new Request();
 const deparment = new Department();
 const job = new Job();
 const post = new Post();
+const comment = new Comment();
 
 // GET requests
 router.get('/', (req, res, next) => {
@@ -186,11 +188,17 @@ router.post('/view-post', (req, res, next) => {
             var data = JSON.parse(result);
             console.log(data);
             console.log(data[0]);
-            if(user.UserTypeID == 3) {
-                res.render('post.ejs', {username: fullname, data: data[0]});
-            } else {
-                res.render('post.ejs', {username: user.UserName, data: data[0]});
-            }
+            var post = data[0].UserPostID
+            console.log(post);
+            comment.list(post, function(result){
+                var comments = JSON.parse(result);
+                console.log(comments);
+                if(user.UserTypeID == 3) {
+                    res.render('post.ejs', {username: fullname, data: data[0], comments: comments});
+                } else {
+                    res.render('post.ejs', {username: user.UserName, data: data[0] , comments: comments});
+                }
+            });
         });
     } else {
         res.redirect('/')

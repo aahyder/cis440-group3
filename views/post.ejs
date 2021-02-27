@@ -41,22 +41,16 @@
             </div>
             <h1 class="h3 mb-3 fw-normal row d-flex justify-content-center">Comments</h1>
             <div class="comment mb-2 row">
+                <% comments.forEach(function(c) {%>
                 <div class="comment-content col-md-11 col-sm-10">
-                    <h6 class="small comment-meta"><span>admin</span> Today, 2:38</h6>
+                    <h6 class="small comment-meta"><span><%=c.DisplayName %></span> : <%=c.DateCreated %></h6>
                     <div class="comment-body">
-                        <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempoua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo. <br>
+                        <p><%=c.CommentContent %><br>
                             <button class="small comment-meta comment-reply">Reply</button>
                         </p>
                     </div>
                 </div>
-                <div class="comment-content col-md-11 col-sm-10">
-                    <h6 class="small comment-meta"><span>admin</span> Today, 2:38</h6>
-                    <div class="comment-body">
-                        <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempoua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo. <br>
-                            <button class="small comment-meta comment-reply">Reply</button>
-                        </p>
-                    </div>
-                </div>
+                <% }); %>
             </div>
       </body>
 </html>
