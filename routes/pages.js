@@ -34,6 +34,7 @@ router.get('/index', (req, res, next) => {
     if(user) {
         var user = JSON.parse(user);
         var fullname = user.FirstName + " " + user.LastName;
+        var manager = false;
         console.log(user.UserTypeID);
         if(user.UserTypeID == 1) {
             res.redirect('/admin');
@@ -41,15 +42,16 @@ router.get('/index', (req, res, next) => {
             post.list(user, 1, function (result) {
                 console.log('index post home: ' + result)
                 var data = JSON.parse(result);
+                manager = true;
                 console.log(data);
-                res.render('home.ejs', { username: fullname, data: data });
+                res.render('home.ejs', { username: fullname, data: data, manager: manager});
             });
         }else {
             post.list(user, 1, function (result) {
                 console.log('index post home: ' + result)
                 var data = JSON.parse(result);
                 console.log(data);
-                res.render('home.ejs', { username: user.UserName, data: data });
+                res.render('home.ejs', { username: user.UserName, data: data, manager: manager});
             });
         }
     } else {
@@ -64,17 +66,27 @@ router.get('/home', (req, res, next) => {
     if(user) {
         var user = JSON.parse(user);
         var fullname = user.FirstName + " " + user.LastName;
+        var manager = false;
         console.log(fullname);
         if(user.UserTypeID == 3) {
             console.log('user is manager');
-            res.render('home.ejs', {username: fullname})
+            manager = true;
+            console.log(manager);
+            post.list(user.UserID, 1, function (result) {
+                console.log('home get: ' + result)
+                var data = JSON.parse(result);
+                console.log(data);
+                console.log(manager);
+                res.render('home.ejs', { username: user.UserName, data: data, manager: manager});
+            });
         } else {
             console.log('regular user');
             post.list(user.UserID, 1, function (result) {
                 console.log('home get: ' + result)
                 var data = JSON.parse(result);
                 console.log(data);
-                res.render('home.ejs', { username: user.UserName, data: data });
+                console.log(manager);
+                res.render('home.ejs', { username: user.UserName, data: data, manager: manager});
             });
         }
     } else {
@@ -135,6 +147,11 @@ router.get('/my-issues', (req, res, next) => {
                 console.log("my-issues get: "+result);
                 res.end(JSON.stringify(result));
             });
+        } else if(user.UserTypeID == 3) {
+            post.list(user.UserID, 2, function(result){
+                console.log("my-issues get: "+result);
+                res.end(JSON.stringify(result));
+            });
         } else {
             res.render('Access Denied');
         }
@@ -163,17 +180,21 @@ router.post('/view-post', (req, res, next) => {
     var id = req.query.id;
     var user = JSON.parse(req.session.user);
     var fullname = user.FirstName + " " + user.LastName;
-    post.find(id, function(result){
-        console.log("view-post get: "+result);
-        var data = JSON.parse(result);
-        console.log(data);
-        console.log(data[0]);
-        if(user.UserTypeID == 3) {
-            res.render('post.ejs', {username: fullname, data: data});
-        } else {
-            res.render('post.ejs', {username: user.UserName, data: data[0]});
-        }
-    });
+    if(user) {
+        post.find(id, function(result){
+            console.log("view-post get: "+result);
+            var data = JSON.parse(result);
+            console.log(data);
+            console.log(data[0]);
+            if(user.UserTypeID == 3) {
+                res.render('post.ejs', {username: fullname, data: data[0]});
+            } else {
+                res.render('post.ejs', {username: user.UserName, data: data[0]});
+            }
+        });
+    } else {
+        res.redirect('/')
+    }
 });
 
 router.post('/approve', (req, res, next) => {
@@ -231,10 +252,15 @@ router.post('/request', (req, res, next) => {
 
 router.post('/job-titles', (req, res, next) => {
     var id = req.query.id;
-    job.list(id, function(result){
-        console.log("job-titles post: "+result);
-        res.end(JSON.stringify(result));
-    });
+    var user = req.session.user;
+    if(user) {
+        job.list(id, function(result){
+            console.log("job-titles post: "+result);
+            res.end(JSON.stringify(result));
+        });
+    } else {
+        res.redirect('/');
+    }
 });
 
 router.post('/new-request', (req, res, next) => {

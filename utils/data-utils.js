@@ -118,6 +118,23 @@ var getMyIssues = function (id, callback) {
     });
 };
 
+var getAllIssues = function (callback) {
+    // set up db connection
+    var con = sql.createConnection({
+        host: "107.180.1.16",
+        user: "2021group3",
+        password: "group32021",
+        database: "2021group3"
+    });
+	console.log("CALL checkAllIssues()");
+    con.query("CALL checkAllIssues()", function (err, result) {
+        if (err) throw err;
+        con.end();
+        console.log('checkAllIssues SP: ' + JSON.stringify(result[0]));
+        return callback(null, JSON.stringify(result[0]));
+    });
+};
+
 var getRequestById = function (id, callback) {
 	// set up db connection
 	var con = sql.createConnection({
@@ -303,5 +320,5 @@ var createNewIssue = function (uID, sub, content, type, callback) {
 
 module.exports = {authenticateUser, getUserById, getUserByName, createNewRequest, getPendingRequests, getDepartments, getJobs, 
 	createNewUser, getRequestById, approveUserById, denyUserById, getPosts, updateUserAndPass, addComment, getManagerEmails,
-	createNewIssue, getMyIssues, getPostById};
+	createNewIssue, getMyIssues, getPostById, getAllIssues};
 
