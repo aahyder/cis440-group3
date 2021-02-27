@@ -30,7 +30,25 @@
     text-decoration: underline;
 }
 
+.post-reply {
+    border-style: none;
+    color: blue;
+    outline: none;
+    border: 0;
+    background-color: #f5f5f5;
+    text-align: justify;
+}
+
 .comment-reply:active {
+   outline: 0;
+   border: 0;
+}
+
+.post-reply:hover {
+    text-decoration: underline;
+}
+
+.post-reply:active {
    outline: 0;
    border: 0;
 }

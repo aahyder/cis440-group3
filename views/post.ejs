@@ -32,18 +32,25 @@
                 </div>
             </div>
         </nav>
-        <div id="homePanel" class="contentPanel fixed-top container row-fluid">
-            <h1 class="h3 mb-3 fw-normal row d-flex justify-content-center" style="padding-top: 50px;">Post</h1>
-            <div id="post">
-                <h5 style="font-weight: normal; text-decoration: underline;"><%= data.SubjectLine %></h5>
+        <div id="homePanel" class="contentPanel container row-fluid">
+            <h1 class="h3 mb-3 fw-normal row d-flex justify-content-center" style="padding-top: 30px;">Post</h1>
+            <div id="post" class='post-body'>
+                <h5 style="font-weight: normal; text-decoration: underline; text-align: center; padding-bottom: 15px;"><%= data.SubjectLine %></h5>
                 <p class='post-body'><%= data.PostContent %></p>
-                <p class='post-body'>By: <%= data.PostUser %></p> 
+                <p class='post-body' style="padding-top: 15px;">By: <%= data.PostUser %></p> 
+                <button class="small comment-meta post-reply">Comment</button>
             </div>
             <h1 class="h3 mb-3 fw-normal row d-flex justify-content-center">Comments</h1>
             <div class="comment mb-2 row">
                 <% comments.forEach(function(c) {%>
                 <div class="comment-content col-md-11 col-sm-10">
-                    <h6 class="small comment-meta"><span><%=c.DisplayName %></span> : <%=c.DateCreated %></h6>
+                    <h6 class="small comment-meta"><span><%=c.DisplayName %> 
+                        <% if(c.BadgeTypeID == 3) {%> 
+                            <span class="badge badge-warning">Manager</span>
+                        <%} else if(c.BadgeTypeID == 4) {%>  
+                            <span class="badge badge-primary">Admin</span>
+                        <% } %>
+                    </span> : <%=c.DateCreated %></h6>
                     <div class="comment-body">
                         <p><%=c.CommentContent %><br>
                             <button class="small comment-meta comment-reply">Reply</button>
@@ -51,6 +58,9 @@
                     </div>
                 </div>
                 <% }); %>
+                <% if(comments.length < 1) {%>
+                    <p style="margin: 0 auto;">No Comments</p>
+                <% } %>
             </div>
       </body>
 </html>
