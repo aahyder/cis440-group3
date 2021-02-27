@@ -1,0 +1,51 @@
+/* post.css */
+.comment {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.comment-body {
+    text-align: justify;
+}
+
+.post-body {
+    margin: 0 auto;
+    text-align: justify;
+}
+
+#post {
+    max-width: 550px;
+    margin: 0 auto;
+}
+
+.comment-reply {
+    border-style: none;
+    color: blue;
+    outline: none;
+    border: 0;
+    background-color: white;
+}
+
+.comment-reply:hover {
+    text-decoration: underline;
+}
+
+.comment-reply:active {
+   outline: 0;
+   border: 0;
+}
+
+.comment-meta {
+    text-align: justify;
+    padding-top: 10px;
+}
+
+.comment-content {
+    background-color: white;
+    border-style: ridge;
+    margin-top: 5px;
+}
+
+span {
+    font-weight: bold;
+}

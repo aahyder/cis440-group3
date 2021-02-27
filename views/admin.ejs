@@ -15,7 +15,7 @@
 </head>
 <body class="text-center">
     <div class="titlecontainer">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light navbar sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-secondary navbar sticky-top">
             <a class="navbar-brand" href="#">Hi <%= username %></a>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
@@ -32,9 +32,9 @@
             </div>
         </nav>
         <div id="panel" class="contentPanel">
-            <div id="adminPanel" class="adminPanel">
-                <h1 class="h3 mb-3 fw-normal">Administration</h1>
-                <h5 class="left" style="padding-top: 10px;">Account requests</h5>
+            <div id="adminPanel" class="adminPanel container row-fluid overflow-auto">
+                <h1 class="h3 mb-3 fw-normal" style="padding-top: 20px;">Administration</h1>
+                <h5 class="left" style="padding-top: 20px;">Account requests</h5>
                 <br>
                 <div class="accountsBox" id="requestsBox">
                     <table class="table table-hover table table-striped" style="max-width: 650px; text-align: center; margin: 0 auto;">

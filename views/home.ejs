@@ -15,7 +15,7 @@
 </head>
 <body class="text-center">
     <div class="titlecontainer">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-secondary navbar sticky-top">
             <a class="navbar-brand" href="#">Hi <%= username %></a>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
@@ -39,7 +39,7 @@
             <% if(manager) { %>
               <button id='mrgBtn' type="button" class="btn btn-primary" onclick="openModal('viewIssuesModal')">View All Issues</button>
             <% } else { %>
-              <button id='usrBtn' type="button" class="btn btn-primary" onclick="openModal('viewAllIssuesModal')">View My Issues</button>
+              <button id='usrBtn' type="button" class="btn btn-primary" onclick="openModal('viewIssuesModal')">View My Issues</button>
             <% } %>
             <div id="submitIssueModal" class="modal">
               <div class="modal-content">

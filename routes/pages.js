@@ -296,10 +296,9 @@ router.post('/email-managers', (req, res, next) => {
 router.post('/user-post', (req, res, next) => {
     var subject = req.query.subject;
     var body = req.query.content;
-    var type = req.query.type;
     var u = JSON.parse(req.session.user);
-    if(u.UserTypeID !== 1) {
-        post.create(u.UserID, u.UserTypeID, type, subject, body, function(result){
+    if(u.UserTypeID) {
+        post.create(u.UserID, u.UserTypeID, subject, body, function(result){
             console.log("user-post post: "+result);
             res.redirect('/home');
         });

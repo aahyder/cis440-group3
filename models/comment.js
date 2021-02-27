@@ -1,9 +1,9 @@
-// request.js
+// comment.js
 const dataServices = require('../utils/data-utils.js');
 //const bycrypt = require('bcrypt');
-function Post() { };
+function Comment() { };
 
-Post.prototype = {
+Comment.prototype = {
     // query user by id
     find: function (request = null, callback) {
         if (request) {
@@ -17,25 +17,17 @@ Post.prototype = {
         }
     },
     // insert new post data by user type
-    create: function (user, utype, subject, body, callback) {
+    create: function (user, utype, type, subject, body, callback) {
         if (utype == 2) {
-            dataServices.createNewPost(user, subject, body, 3, function (err, result) {
+            dataServices.createNewIssue(user, subject, body, type, function (err, result) {
                 if (err) throw err;
                 console.log('post create call: ' + result);
                 callback(result);
             });
         } else if (utype == 3) {
-            dataServices.createNewPost(user, subject, body, 1, function (err, result) {
-                if (err) throw err;
-                console.log('post create call: ' + result);
-                callback(result);
-            });
+            //TODO
         } else {
-            dataServices.createNewIssue(user, subject, body, 3, function (err, result) {
-                if (err) throw err;
-                console.log('post create call: ' + result);
-                callback(result);
-            });
+            //TODO
         }
     },
     // get posts by user type

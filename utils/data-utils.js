@@ -301,7 +301,7 @@ var addComment = function (uID, comment) {
     });
 }
 
-var createNewIssue = function (uID, sub, content, type, callback) {
+var createNewPost = function (uID, sub, content, type, callback) {
     // set up db connection
     var con = sql.createConnection({
         host: "107.180.1.16",
@@ -320,5 +320,5 @@ var createNewIssue = function (uID, sub, content, type, callback) {
 
 module.exports = {authenticateUser, getUserById, getUserByName, createNewRequest, getPendingRequests, getDepartments, getJobs, 
 	createNewUser, getRequestById, approveUserById, denyUserById, getPosts, updateUserAndPass, addComment, getManagerEmails,
-	createNewIssue, getMyIssues, getPostById, getAllIssues};
+	createNewPost, getMyIssues, getPostById, getAllIssues};
 
