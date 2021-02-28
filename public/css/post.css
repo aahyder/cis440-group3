@@ -1,0 +1,25 @@
+/* post.css */
+
+#homePanel {
+    width: 75%;
+    margin: 0 auto;
+    margin-top: 100px;
+    background: #ebeef0;
+    padding-top: 0px;
+    border-radius: 25px;
+}
+
+.btn-trans {
+    background-color: transparent;
+    border-color: transparent;
+    color: #929292;
+}
+
+.btn-icon {
+    padding-left: 9px;
+    padding-right: 9px;
+}
+
+    .btn-sm, .btn-group-sm > .btn, .btn-icon.btn-sm {
+        padding: 5px 10px !important;
+    }

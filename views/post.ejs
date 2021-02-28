@@ -12,6 +12,7 @@
     <!-- Custom styles for this template -->
     <link href="css/main.css" rel="stylesheet">
     <link href="css/home.css" rel="stylesheet">
+      <link href="css/post.css" rel="stylesheet">
 </head>
 <body class="text-center">
     <div class="titlecontainer"></div>
@@ -34,8 +35,11 @@
         <div id="homePanel" class="contentPanel fixed-top container row-fluid">
             <h1 class="h3 mb-3 fw-normal row d-flex justify-content-center">Post</h1>
             <h5><%= data.SubjectLine %></h5>
+            <p>By: <%= data.PostUser %></p>
             <p><%= data.PostContent %></p>
-            <p>By: <%= data.PostUser %></p> 
+            <input type='image' alt='thumbs up' src='/images/hand-thumbs-up-fill.svg'></input>
+            <input type='image' alt='thumbs down' src='/images/hand-thumbs-down-fill.svg'></input>
             <h1 class="h3 mb-3 fw-normal row d-flex justify-content-center">Comments</h1>
       </body>
 </html>
+
