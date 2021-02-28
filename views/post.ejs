@@ -12,11 +12,11 @@
     <!-- Custom styles for this template -->
     <link href="css/main.css" rel="stylesheet">
     <link href="css/home.css" rel="stylesheet">
-      <link href="css/post.css" rel="stylesheet">
+    <link href="css/post.css" rel="stylesheet">
 </head>
 <body class="text-center">
     <div class="titlecontainer"></div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-secondary navbar sticky-top">
             <a class="navbar-brand" href="#">Hi <%= username %></a>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
@@ -32,14 +32,38 @@
                 </div>
             </div>
         </nav>
-        <div id="homePanel" class="contentPanel fixed-top container row-fluid">
-            <h1 class="h3 mb-3 fw-normal row d-flex justify-content-center">Post</h1>
-            <h5><%= data.SubjectLine %></h5>
-            <p>By: <%= data.PostUser %></p>
-            <p><%= data.PostContent %></p>
-            <input type='image' alt='thumbs up' src='/images/hand-thumbs-up-fill.svg'></input>
-            <input type='image' alt='thumbs down' src='/images/hand-thumbs-down-fill.svg'></input>
+        <div id="homePanel" class="contentPanel container row-fluid">
+            <h1 class="h3 mb-3 fw-normal row d-flex justify-content-center" style="padding-top: 30px;">Post</h1>
+            <div id="post" class='post-body'>
+                <h5 style="font-weight: normal; text-decoration: underline; text-align: center; padding-bottom: 15px;"><%= data.SubjectLine %></h5>
+                <p class='post-body'><%= data.PostContent %></p>
+                <p class='post-body' style="padding-top: 15px;">By: <%= data.PostUser %></p>
+                <input type='image' alt='thumbs up' src='/images/hand-thumbs-up-fill.svg'></input>
+                <input type='image' alt='thumbs down' src='/images/hand-thumbs-down-fill.svg'></input>
+                <button class="small comment-meta post-reply">Comment</button>
+            </div>
             <h1 class="h3 mb-3 fw-normal row d-flex justify-content-center">Comments</h1>
+            <div class="comment mb-2 row">
+                <% comments.forEach(function(c) {%>
+                <div class="comment-content col-md-11 col-sm-10">
+                    <h6 class="small comment-meta"><span><%=c.DisplayName %> 
+                        <% if(c.BadgeTypeID == 3) {%> 
+                            <span class="badge badge-warning">Manager</span>
+                        <%} else if(c.BadgeTypeID == 4) {%>  
+                            <span class="badge badge-primary">Admin</span>
+                        <% } %>
+                    </span> : <%=c.DateCreated %></h6>
+                    <div class="comment-body">
+                        <p><%=c.CommentContent %><br>
+                            <button class="small comment-meta comment-reply">Reply</button>
+                        </p>
+                    </div>
+                </div>
+                <% }); %>
+                <% if(comments.length < 1) {%>
+                    <p style="margin: 0 auto;">No Comments</p>
+                <% } %>
+            </div>
       </body>
 </html>
 

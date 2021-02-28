@@ -14,8 +14,8 @@
     <link href="css/home.css" rel="stylesheet">
 </head>
 <body class="text-center">
-    <div class="titlecontainer"></div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="titlecontainer">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-secondary navbar sticky-top">
             <a class="navbar-brand" href="#">Hi <%= username %></a>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
@@ -31,11 +31,16 @@
                 </div>
             </div>
         </nav>
-        <div id="homePanel" class="contentPanel container row-fluid">
+      </div>
+        <div id="homePanel" class="contentPanel container row-fluid overflow-auto">
             <h1 class="h3 mb-3 fw-normal row d-flex justify-content-center">Home</h1>
             <h5 style="padding-bottom: 15px; padding-top: 20px;">User Issues</h5>
             <button type="button" class="btn btn-primary" onclick="openModal('submitIssueModal')">Submit New Issue</button>
-            <button type="button" class="btn btn-primary" onclick="openModal('viewIssuesModal')">View My Issues</button>
+            <% if(manager) { %>
+              <button id='mrgBtn' type="button" class="btn btn-primary" onclick="openModal('viewIssuesModal')">View All Issues</button>
+            <% } else { %>
+              <button id='usrBtn' type="button" class="btn btn-primary" onclick="openModal('viewIssuesModal')">View My Issues</button>
+            <% } %>
             <div id="submitIssueModal" class="modal">
               <div class="modal-content">
                 <span class="close cursor" onclick="closeModal()" style="color: black;">&times;</span>
@@ -58,6 +63,7 @@
             <h5 style="padding-bottom: 15px; padding-top: 20px;">Recent Topics</h5>
             <div class="row">
             <% data.forEach(function(d) {%>
+              <div class="col-sm-6">
             <div class="card" style="width: 18rem; margin: 0 auto; margin-bottom: 10px;">
                 <div class="card-body">
                   <h5 class="card-title"><%= d.SubjectLine %></h5>
@@ -67,6 +73,7 @@
                   </form>
                 </div>
               </div>
+            </div>
             <% }); %>
             </div>
           </div>

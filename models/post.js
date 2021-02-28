@@ -17,17 +17,25 @@ Post.prototype = {
         }
     },
     // insert new post data by user type
-    create: function (user, utype, type, subject, body, callback) {
+    create: function (user, utype, subject, body, callback) {
         if (utype == 2) {
-            dataServices.createNewIssue(user, subject, body, type, function (err, result) {
+            dataServices.createNewPost(user, subject, body, 3, function (err, result) {
                 if (err) throw err;
                 console.log('post create call: ' + result);
                 callback(result);
             });
         } else if (utype == 3) {
-            //TODO
+            dataServices.createNewPost(user, subject, body, 1, function (err, result) {
+                if (err) throw err;
+                console.log('post create call: ' + result);
+                callback(result);
+            });
         } else {
-            //TODO
+            dataServices.createNewIssue(user, subject, body, 3, function (err, result) {
+                if (err) throw err;
+                console.log('post create call: ' + result);
+                callback(result);
+            });
         }
     },
     // get posts by user type

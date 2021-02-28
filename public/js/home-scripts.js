@@ -21,8 +21,8 @@ var submitIssue = function(form) {
     var title = document.getElementById('staticTitle').value;
     var content = document.getElementById('staticIssueBody').value;
     console.log(title+" "+content);
-    window.alert("/user-post?subject="+title+"&content="+content+"&type=3");
-    form.action = "/user-post?subject="+title+"&content="+content+"&type=3";
+    window.alert("/user-post?subject="+title+"&content="+content);
+    form.action = "/user-post?subject="+title+"&content="+content;
     form.submit();
 }
 
