@@ -33,11 +33,11 @@
             </div>
         </nav>
         <div id="homePanel" class="contentPanel container row-fluid">
-            <h1 class="h3 mb-3 fw-normal row d-flex justify-content-center" style="padding-top: 30px;">Post</h1>
             <div id="post" class='post-body'>
-                <h5 style="font-weight: normal; text-decoration: underline; text-align: center; padding-bottom: 15px;"><%= data.SubjectLine %></h5>
+                <h1 class="h3 mb-3 fw-normal row d-flex justify-content-center" style="padding-top: 30px;"><%= data.SubjectLine %></h1>
+                <h5 style="font-weight: normal; text-decoration: underline; text-align: center; padding-bottom: 15px;">By: <%= data.PostUser %></h5>
                 <p class='post-body'><%= data.PostContent %></p>
-                <p class='post-body' style="padding-top: 15px;">By: <%= data.PostUser %></p>
+                
                 <input type='image' alt='thumbs up' src='/images/hand-thumbs-up-fill.svg'></input>
                 <input type='image' alt='thumbs down' src='/images/hand-thumbs-down-fill.svg'></input>
                 <button class="small comment-meta post-reply">Comment</button>
@@ -56,6 +56,8 @@
                     <div class="comment-body">
                         <p><%=c.CommentContent %><br>
                             <button class="small comment-meta comment-reply">Reply</button>
+                            <input type='image' alt='thumbs up' src='/images/hand-thumbs-up-fill.svg'></input>
+                            <input type='image' alt='thumbs down' src='/images/hand-thumbs-down-fill.svg'></input>
                         </p>
                     </div>
                 </div>
