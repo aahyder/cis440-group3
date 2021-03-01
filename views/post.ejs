@@ -39,8 +39,6 @@
                 <h5 style="font-weight: normal; text-decoration: underline; text-align: center; padding-bottom: 15px;">By: <%= data.PostUser %></h5>
                 <p class='post-body'><%= data.PostContent %></p>
                 <button class="small comment-meta post-reply" onclick="openModal('comment',<%= data.UserPostID %>)">Comment</button>
-                <input type='image' alt='thumbs up' src='/images/hand-thumbs-up.svg'> 123</input>
-                <input type='image' alt='thumbs down' src='/images/hand-thumbs-down.svg'> 456</input>
             </div>
             <h1 class="h3 mb-3 fw-normal row d-flex justify-content-center">Comments</h1>
             <div class="comment mb-2 row">
@@ -53,13 +51,25 @@
                             <span class="badge badge-primary">Admin</span>
                         <% } %>
                     </span> : <%=c.DateCreated %></h6>
-                    <div class="comment-body">
+                    <div class="comment-body" id="<%= c.CommentID %>">
                         <p><%=c.CommentContent %><br>
                             <% if(reply) {%> 
                                 <button class="small comment-meta comment-reply" onclick="openModal('reply',<%=c.CommentID %>)">Reply</button>
                             <% } %>
-                            <input type='image' alt='thumbs up' src='/images/hand-thumbs-up.svg'> 123</input>
-                            <input type='image' alt='thumbs down' src='/images/hand-thumbs-down.svg'> 456</input>
+                            <input id="<%= c.CommentID %>-thumbs-up" type='image' alt='thumbs up' onclick="userReact(<%=c.CommentID %>, 1)" src='/images/hand-thumbs-up.svg'>
+                            <% if(c.TotalThumbsUp == null) {%>
+                                <span id="<%= c.CommentID %>-total-up" style="font-weight: normal;">0</span>
+                            <% } else {%>
+                                <span id="<%= c.CommentID %>-total-up" style="font-weight: normal;"><%=c.TotalThumbsUp %></span>
+                            <% } %>
+                            </input>
+                            <input id="<%= c.CommentID %>-thumbs-down" type='image' alt='thumbs down' onclick="userReact(<%=c.CommentID %>, 2)" src='/images/hand-thumbs-down.svg'> 
+                            <% if(c.TotalThumbsDown == null) {%>
+                                <span id="<%= c.CommentID %>-total-down" style="font-weight: normal;">0</span>
+                            <% } else {%>
+                                <span id="<%= c.CommentID %>-total-down" style="font-weight: normal;"><%=c.TotalThumbsDown %></span>
+                            <% } %>
+                            </input>
                         </p>
                         <% if(c.ReplyContent !== null) {%>
                             <div style="padding-left: 5%;"> 
@@ -70,7 +80,7 @@
                                         <span class="badge badge-primary">Admin</span>
                                     <% } %>
                                 </span> : <%=c.ReplyCreated %></h6>
-                                <div class="comment-body">
+                                <div class="reply-comment-body">
                                     <p><%=c.ReplyContent %><br>
                                     </p>
                                 </div>
@@ -97,4 +107,35 @@
                 </div>
             </div>
       </body>
+      <script type='text/javascript'>
+        var elemsLength = document.getElementsByClassName('comment-body').length;
+        var elems = document.getElementsByClassName('comment-body');
+        var post = document.getElementById("postId").value;
+        var reactions = getMyReactions(post, function(result) {
+            data = JSON.parse(result);
+            console.log(data);
+            for(var i=0; i<elemsLength; i++) {
+                var comment = document.getElementById(elems[i].id);
+                for(var j=0; j<data.length; j++) {
+                    var commentLike = document.getElementById(elems[i].id+'-thumbs-up');
+                    var commentDislike = document.getElementById(elems[i].id+'-thumbs-down');
+                    if(data[j].UserCommentID == comment.id && data[j].ReactionTypeID == 1) {
+                        commentLike.src = '/images/hand-thumbs-up-fill.svg'
+                        console.log(commentLike.src);
+                    } else if(data[j].UserCommentID == comment.id && data[j].ReactionTypeID == 2) {
+                        commentDislike.src = '/images/hand-thumbs-down-fill.svg'
+                        console.log(commentLike.src);
+                    }
+                }
+            }
+        });
+        
+        console.log(elemsLength);
+
+        /*
+        for(var i=0; i<=elemsLength; i++) {
+            var like = document.getElementById('comment-'+i+'thumbs-up');
+        }
+        */
+      </script>
 </html>

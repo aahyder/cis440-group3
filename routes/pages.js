@@ -13,6 +13,7 @@ const Department = require('../models/department');
 const Job = require('../models/job');
 const Post = require('../models/post');
 const Comment = require('../models/comment');
+const Reaction = require('../models/reaction');
 
 // initialize models
 const user = new User();
@@ -21,6 +22,7 @@ const deparment = new Department();
 const job = new Job();
 const post = new Post();
 const comment = new Comment();
+const reaction = new Reaction();
 
 // GET requests
 router.get('/', (req, res, next) => {
@@ -187,7 +189,36 @@ router.get('/my-issues', (req, res, next) => {
     }
 });
 
+router.get('/my-reactions', (req, res, next) => {
+    var user = JSON.parse(req.session.user);
+    var id = req.query.id;
+    console.log(id);
+    if(user) {
+        reaction.list(user.UserID, id, function(result){
+            console.log("my-reactions get: "+result);
+            res.end(JSON.stringify(result));
+        });
+    } else {
+        res.send('access denied');
+    }
+});
+
 // POST reqeusts
+router.post('/react', (req, res, next) => {
+    var user = JSON.parse(req.session.user);
+    var id = req.query.id;
+    var type = req.query.type;
+    console.log(id);
+    if(user) {
+        reaction.create(id, user.UserID, type, function(result){
+            console.log("react get: "+result);
+            res.end(JSON.stringify(result));
+        });
+    } else {
+        res.send('access denied');
+    }
+});
+
 router.post('/login', (req, res, next) => {
     console.log(req.body);
     user.login(req.body.username, req.body.password, function(result) {

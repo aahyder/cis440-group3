@@ -249,6 +249,23 @@ var getUserByName = function (name, callback) {
 	});
 };
 
+var getReactionsByPost = function (user, id, callback) {
+	// set up db connection
+	var con = sql.createConnection({
+		host: "107.180.1.16",
+		user: "2021group3",
+		password: "group32021",
+		database: "2021group3"
+	});
+	console.log("CALL checkReactionsByPost(" + user + ","+ id +")");
+	con.query("CALL checkReactionsByPost(" + user + ","+ id +")", function (err, result) {
+		if (err) throw err;
+		console.log('getReactionsByPost SP: '+JSON.stringify(result[0]));
+		con.end();
+		return callback(null, JSON.stringify(result[0]));
+	});
+};
+
 var createNewRequest = function (email, fname, lname, dept, job, callback) {
 	// set up db connection
 	var con = sql.createConnection({
@@ -334,6 +351,23 @@ var updateComment = function (uID, id, content, callback) {
     });
 }
 
+var addReaction = function (comment, user, type, callback) {
+    // set up db connection
+    var con = sql.createConnection({
+        host: "107.180.1.16",
+        user: "2021group3",
+        password: "group32021",
+        database: "2021group3"
+    });
+    console.log("CALL addCommentReaction(" + comment + "," + user + "," + type + ")");
+    con.query("CALL addCommentReaction(" + comment + "," + user + "," + type + ")", function (err, result) {
+        if (err) throw err;
+        console.log('updateComment SP: ' + JSON.stringify(result[0]));
+        con.end();
+        return callback(null, JSON.stringify(result[0]));
+    });
+}
+
 var createNewPost = function (uID, sub, content, type, callback) {
     // set up db connection
     var con = sql.createConnection({
@@ -353,5 +387,5 @@ var createNewPost = function (uID, sub, content, type, callback) {
 
 module.exports = {authenticateUser, getUserById, getUserByName, createNewRequest, getPendingRequests, getDepartments, getJobs, 
 	createNewUser, getRequestById, approveUserById, denyUserById, getPosts, updateUserAndPass, addNewComment, getManagerEmails,
-	createNewPost, getMyIssues, getPostById, getAllIssues, getCommentsById, updateComment};
+	createNewPost, getMyIssues, getPostById, getAllIssues, getCommentsById, updateComment, getReactionsByPost, addReaction};
 
