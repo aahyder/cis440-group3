@@ -41,7 +41,7 @@ var getJobTitles = async function (value) {
     console.log('get jobs fired');
     var elements = document.getElementsByClassName('job-option');
     console.log(elements);
-    if (elements.length > 1) {
+    if (elements.length > 0) {
       for(var i=0; i<elements.length; i++) {
         elements[i].remove();
         document.getElementById("job-dropdown").innerHTML = "<option value='' disabled selected>Select Department</option>";
@@ -57,7 +57,7 @@ var getJobTitles = async function (value) {
           var len = Object.keys(data).length;
           console.log(len);
           console.log(data[0]);
-          if(len > 1) {
+          if(len > 0) {
             for(var i=0; i<len; i++) {
               var elem = document.createElement("option");
               elem.className = "job-option";
@@ -80,6 +80,6 @@ var getJobTitles = async function (value) {
         alert('Please select department before selecting job title');
       }
     } catch (error) {
-      throw error;//alert(error.toString());
+      throw error;
     }
 };

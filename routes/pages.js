@@ -173,18 +173,13 @@ router.get('/request', (req, res, next) => {
 router.get('/my-issues', (req, res, next) => {
     var user = JSON.parse(req.session.user);
     if(user) {
-        if(user.UserTypeID == 2) {
+        if(user.UserTypeID !== 3) {
             post.list(user.UserID, 3, function(result){
                 console.log("my-issues get: "+result);
                 res.end(JSON.stringify(result));
             });
-        } else if(user.UserTypeID == 3) {
-            post.list(user.UserID, 2, function(result){
-                console.log("my-issues get: "+result);
-                res.end(JSON.stringify(result));
-            });
-        } else {
-            res.render('Access Denied');
+         } else {
+            res.send('Access Denied');
         }
     }
 });
@@ -318,15 +313,10 @@ router.post('/request', (req, res, next) => {
 
 router.post('/job-titles', (req, res, next) => {
     var id = req.query.id;
-    var user = req.session.user;
-    if(user) {
-        job.list(id, function(result){
-            console.log("job-titles post: "+result);
-            res.end(JSON.stringify(result));
-        });
-    } else {
-        res.redirect('/');
-    }
+    job.list(id, function(result){
+        console.log("job-titles post: "+result);
+        res.end(JSON.stringify(result));
+    });
 });
 
 router.post('/new-request', (req, res, next) => {

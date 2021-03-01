@@ -283,6 +283,23 @@ var createNewRequest = function (email, fname, lname, dept, job, callback) {
 	});
 };
 
+var createNewIssue = function (uID, sub, content, type, callback) {
+    // set up db connection
+    var con = sql.createConnection({
+        host: "107.180.1.16",
+        user: "2021group3",
+        password: "group32021",
+        database: "2021group3"
+    });
+    console.log("CALL createNewPost('" + uID + "','" + sub + "','"+ content +"',"+ type +")");
+    con.query("CALL createNewPost('" + uID + "','" + sub + "','"+ content +"',"+ type +")", function (err, result) {
+        if (err) throw err;
+        console.log('createNewPost SP: ' + JSON.stringify(result[0][0].id));
+        con.end();
+        return callback(null, JSON.stringify(result[0][0].id));
+    });
+}
+
 var createNewUser = function (email, fname, lname, dept, job, callback) {
 	// set up db connection
 	var con = sql.createConnection({
@@ -387,5 +404,6 @@ var createNewPost = function (uID, sub, content, type, callback) {
 
 module.exports = {authenticateUser, getUserById, getUserByName, createNewRequest, getPendingRequests, getDepartments, getJobs, 
 	createNewUser, getRequestById, approveUserById, denyUserById, getPosts, updateUserAndPass, addNewComment, getManagerEmails,
-	createNewPost, getMyIssues, getPostById, getAllIssues, getCommentsById, updateComment, getReactionsByPost, addReaction};
+	createNewPost, getMyIssues, getPostById, getAllIssues, getCommentsById, updateComment, getReactionsByPost, addReaction, 
+	createNewIssue};
 
