@@ -78,3 +78,14 @@
 span {
     font-weight: bold;
 }
+
+button {
+    margin-left: 2%;
+    color:white;
+    border: none;
+    outline:none;
+}
+
+button:focus {
+    outline: 0px;
+}

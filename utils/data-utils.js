@@ -300,7 +300,7 @@ var updateUserAndPass = function (email, tempUName, tempPWord, newUName, newPWor
     });
 }
 
-var addComment = function (uID, comment) {
+var addNewComment = function (uID, type, id, content, callback) {
     // set up db connection
     var con = sql.createConnection({
         host: "107.180.1.16",
@@ -308,10 +308,27 @@ var addComment = function (uID, comment) {
         password: "group32021",
         database: "2021group3"
     });
-    console.log("CALL addComment('" + id + "','" + comment + "')");
-    con.query("CALL addComment('" + id + "','" + comment + "')", function (err, result) {
+    console.log("CALL addComment(" + uID + "," + id + "," + type + ",'" + content + "')");
+    con.query("CALL addComment(" + uID + "," + id + "," + type + ",'" + content + "')", function (err, result) {
         if (err) throw err;
-        console.log('addNewRequest SP: ' + JSON.stringify(result[0][0].id));
+        console.log('addComment SP: ' + JSON.stringify(result[0][0].id));
+        con.end();
+        return callback(null, JSON.stringify(result[0][0].id));
+    });
+}
+
+var updateComment = function (uID, id, content, callback) {
+    // set up db connection
+    var con = sql.createConnection({
+        host: "107.180.1.16",
+        user: "2021group3",
+        password: "group32021",
+        database: "2021group3"
+    });
+    console.log("CALL updateComment(" + uID + "," + id + ",'" + content + "')");
+    con.query("CALL updateComment(" + uID + "," + id + ",'" + content + "')", function (err, result) {
+        if (err) throw err;
+        console.log('updateComment SP: ' + JSON.stringify(result[0][0].id));
         con.end();
         return callback(null, JSON.stringify(result[0][0].id));
     });
@@ -335,6 +352,6 @@ var createNewPost = function (uID, sub, content, type, callback) {
 }
 
 module.exports = {authenticateUser, getUserById, getUserByName, createNewRequest, getPendingRequests, getDepartments, getJobs, 
-	createNewUser, getRequestById, approveUserById, denyUserById, getPosts, updateUserAndPass, addComment, getManagerEmails,
-	createNewPost, getMyIssues, getPostById, getAllIssues, getCommentsById};
+	createNewUser, getRequestById, approveUserById, denyUserById, getPosts, updateUserAndPass, addNewComment, getManagerEmails,
+	createNewPost, getMyIssues, getPostById, getAllIssues, getCommentsById, updateComment};
 

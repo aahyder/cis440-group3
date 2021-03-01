@@ -3,16 +3,6 @@ body {
     padding-top: 0px;
 }
 
-#homePanel {
-    width: 60%;
-    margin: 0 auto;
-    margin-top: 50px;
-    background: #ebeef0;
-    padding-top: 0px;
-    border-radius: 25px;
-    padding-bottom: 50px;
-}
-
 input[type="submit"] {
     background: none;
     border: none;

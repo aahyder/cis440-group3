@@ -7,7 +7,7 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script type="text/javascript" src="js/home-scripts.js"></script>
+    <script type="text/javascript" src="js/post-scripts.js"></script>
     <meta name="theme-color" content="#7952b3">
     <!-- Custom styles for this template -->
     <link href="css/main.css" rel="stylesheet">
@@ -34,12 +34,13 @@
         </nav>
         <div id="homePanel" class="contentPanel container row-fluid">
             <div id="post" class='post-body'>
+                <input id='postId' type="text" hidden value="<%= data.UserPostID %>" />
                 <h1 class="h3 mb-3 fw-normal row d-flex justify-content-center" style="padding-top: 30px;"><%= data.SubjectLine %></h1>
                 <h5 style="font-weight: normal; text-decoration: underline; text-align: center; padding-bottom: 15px;">By: <%= data.PostUser %></h5>
-                <p class='post-body'><%= data.PostContent %></p>               
-                <input type='image' alt='thumbs up' src='/images/hand-thumbs-up-fill.svg'></input>
-                <input type='image' alt='thumbs down' src='/images/hand-thumbs-down-fill.svg'></input>
-                <button class="small comment-meta post-reply">Comment</button>
+                <p class='post-body'><%= data.PostContent %></p>
+                <button class="small comment-meta post-reply" onclick="openModal('comment',<%= data.UserPostID %>)">Comment</button>
+                <input type='image' alt='thumbs up' src='/images/hand-thumbs-up.svg'> 123</input>
+                <input type='image' alt='thumbs down' src='/images/hand-thumbs-down.svg'> 456</input>
             </div>
             <h1 class="h3 mb-3 fw-normal row d-flex justify-content-center">Comments</h1>
             <div class="comment mb-2 row">
@@ -54,10 +55,27 @@
                     </span> : <%=c.DateCreated %></h6>
                     <div class="comment-body">
                         <p><%=c.CommentContent %><br>
-                            <button class="small comment-meta comment-reply">Reply</button>
-                            <input type='image' alt='thumbs up' src='/images/hand-thumbs-up-fill.svg'></input>
-                            <input type='image' alt='thumbs down' src='/images/hand-thumbs-down-fill.svg'></input>
+                            <% if(reply) {%> 
+                                <button class="small comment-meta comment-reply" onclick="openModal('reply',<%=c.CommentID %>)">Reply</button>
+                            <% } %>
+                            <input type='image' alt='thumbs up' src='/images/hand-thumbs-up.svg'> 123</input>
+                            <input type='image' alt='thumbs down' src='/images/hand-thumbs-down.svg'> 456</input>
                         </p>
+                        <% if(c.ReplyContent !== null) {%>
+                            <div style="padding-left: 5%;"> 
+                                <h6 class="small comment-meta"><span><%=c.ReplyDisplayName %> 
+                                    <% if(c.ReplyBadgeTypeID == 3) {%> 
+                                        <span class="badge badge-warning">Manager</span>
+                                    <%} else if(c.ReplyBadgeTypeID == 4) {%>  
+                                        <span class="badge badge-primary">Admin</span>
+                                    <% } %>
+                                </span> : <%=c.ReplyCreated %></h6>
+                                <div class="comment-body">
+                                    <p><%=c.ReplyContent %><br>
+                                    </p>
+                                </div>
+                            </div>
+                        <% } %>
                     </div>
                 </div>
                 <% }); %>
@@ -65,6 +83,18 @@
                     <p style="margin: 0 auto;">No Comments</p>
                 <% } %>
             </div>
+            <div id="replyModal" class="modal">
+                <div class="modal-content">
+                    <span class="close cursor" onclick="closeModal()" style="color: black;">&times;</span>
+                    <form action="/comment" method="post">
+                        <h1 id="replyTitle" class="h3 mb-3 fw-normal">Post Comment</h1>
+                        <input type="text" hidden class="form-control-plaintext" id="staticReplyId" value="example"></input>
+                        <input type="text" hidden class="form-control-plaintext" id="staticReplyType" value="example"></input>
+                        <label id ='replyLabel' style="padding-bottom: 10px;">Comment Content</label>
+                        <textarea class="form-control" id="staticReplyBody" rows="10" style="margin: 0 auto; max-width: 300px; margin-bottom: 10px;"></textarea>
+                        <button class="w-100 btn btn-lg btn-primary" style="margin-left: 0; margin-top: 10px; border-radius: 0px;" onclick="submitComment(this.form)">Submit</button>
+                    </form>
+                </div>
+            </div>
       </body>
 </html>
-

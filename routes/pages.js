@@ -31,6 +31,33 @@ router.get('/', (req, res, next) => {
     res.render('login.ejs', {});
 });
 
+router.get('/view-post', (req, res, next) => {
+    var id = req.query.id;
+    var user = JSON.parse(req.session.user);
+    var fullname = user.FirstName + " " + user.LastName;
+    if(user) {
+        post.find(id, function(result){
+            console.log("view-post post: "+result);
+            var data = JSON.parse(result);
+            console.log(data);
+            console.log(data[0]);
+            var post = data[0].UserPostID
+            console.log(post);
+            comment.list(post, function(result){
+                var comments = JSON.parse(result);
+                console.log(comments);
+                if(user.UserTypeID == 3) {
+                    res.render('post.ejs', {username: fullname, data: data[0], comments: comments, reply: true});
+                } else {
+                    res.render('post.ejs', {username: user.UserName, data: data[0] , comments: comments, reply: false});
+                }
+            });
+        });
+    } else {
+        res.redirect('/')
+    }
+});
+
 router.get('/index', (req, res, next) => {
     var user = req.session.user;
     if(user) {
@@ -184,7 +211,7 @@ router.post('/view-post', (req, res, next) => {
     var fullname = user.FirstName + " " + user.LastName;
     if(user) {
         post.find(id, function(result){
-            console.log("view-post get: "+result);
+            console.log("view-post post: "+result);
             var data = JSON.parse(result);
             console.log(data);
             console.log(data[0]);
@@ -194,9 +221,9 @@ router.post('/view-post', (req, res, next) => {
                 var comments = JSON.parse(result);
                 console.log(comments);
                 if(user.UserTypeID == 3) {
-                    res.render('post.ejs', {username: fullname, data: data[0], comments: comments});
+                    res.render('post.ejs', {username: fullname, data: data[0], comments: comments, reply: true});
                 } else {
-                    res.render('post.ejs', {username: user.UserName, data: data[0] , comments: comments});
+                    res.render('post.ejs', {username: user.UserName, data: data[0] , comments: comments, reply: false});
                 }
             });
         });
@@ -305,13 +332,43 @@ router.post('/user-post', (req, res, next) => {
     var subject = req.query.subject;
     var body = req.query.content;
     var u = JSON.parse(req.session.user);
-    if(u.UserTypeID) {
+    if(u) {
         post.create(u.UserID, u.UserTypeID, subject, body, function(result){
             console.log("user-post post: "+result);
             res.redirect('/home');
         });
     } else {
-        res.send('Access Denied');        
+        res.redirect('/');          
+    }
+});
+
+router.post('/comment', (req, res, next) => {
+    var content = req.query.content;
+    var id = req.query.id;
+    var post = req.query.post;
+    var u = JSON.parse(req.session.user);
+    if(u) {
+        comment.create(u.UserID, u.UserTypeID, id, content, function(result){
+            console.log("comment post: "+result);
+            res.redirect('/view-post?id='+encodeURIComponent(post));
+        });
+    } else {
+        res.redirect('/');        
+    }
+});
+
+router.post('/reply', (req, res, next) => {
+    var content = req.query.content;
+    var id = req.query.id;
+    var post = req.query.post;
+    var u = JSON.parse(req.session.user);
+    if(u) {
+        comment.update(u.UserID, u.UserTypeID, id, content, function(result){
+            console.log("reply post: "+result);
+            res.redirect('/view-post?id='+encodeURIComponent(post));
+        });
+    } else {
+        res.redirect('/');        
     }
 });
 
