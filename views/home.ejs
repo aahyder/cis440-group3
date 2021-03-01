@@ -35,7 +35,11 @@
         <div id="homePanel" class="contentPanel container row-fluid overflow-auto">
             <h1 class="h3 mb-3 fw-normal row d-flex justify-content-center">Home</h1>
             <h5 style="padding-bottom: 15px; padding-top: 20px;">User Issues</h5>
-            <button type="button" class="btn btn-primary" onclick="openModal('submitIssueModal')">Submit New Issue</button>
+            <% if(manager) { %>
+              <button type="button" class="btn btn-primary" onclick="openModal('submitIssueModal')">Submit New Post</button>
+            <% } else { %>
+              <button type="button" class="btn btn-primary" onclick="openModal('submitIssueModal')">Submit New Issue</button>
+            <% } %>
             <% if(manager) { %>
               <button id='mrgBtn' type="button" class="btn btn-primary" onclick="openModal('viewIssuesModal')">View All Issues</button>
             <% } else { %>
@@ -45,10 +49,22 @@
               <div class="modal-content">
                 <span class="close cursor" onclick="closeModal()" style="color: black;">&times;</span>
                 <form action="/user-post" method="post">
-                    <h1 class="h3 mb-3 fw-normal">User Issue</h1>
-                    <label style="padding-bottom: 10px;">Issue Title</label>
+                    <% if(manager) { %>
+                      <h1 class="h3 mb-3 fw-normal">New Post</h1>
+                    <% } else { %>
+                      <h1 class="h3 mb-3 fw-normal">New Issue</h1>
+                    <% } %>
+                    <% if(manager) { %>
+                      <label style="padding-bottom: 10px;">Post Title</label>
+                    <% } else { %>
+                      <label style="padding-bottom: 10px;">Issue Title</label>
+                    <% } %>
                     <textarea class="form-control" id="staticTitle" rows="1" style="margin: 0 auto; max-width: 300px; margin-bottom: 10px;"></textarea>
-                    <label style="padding-bottom: 10px;">Issue Details</label>
+                    <% if(manager) { %>
+                      <label style="padding-bottom: 10px;">Post Details</label>
+                    <% } else { %>
+                      <label style="padding-bottom: 10px;">Issue Details</label>
+                    <% } %>
                     <textarea class="form-control" id="staticIssueBody" rows="10" style="margin: 0 auto; max-width: 300px; margin-bottom: 10px;"></textarea>
                     <button class="w-100 btn btn-lg btn-primary" type="submit" onclick="submitIssue(this.form)" style="margin-top: 10px; border-radius: 0px;">Submit</button>
                 </form>
@@ -67,9 +83,8 @@
             <div class="card" style="width: 18rem; margin: 0 auto; margin-bottom: 25px; border-radius: 25px;">
                 <div class="card-body">
                   <h5 class="card-title"><%= d.SubjectLine %></h5>
-                  <p class="card-text"><%= d.PostContent %></p>
                   <form action='/view-post?id=<%= d.UserPostID %>' method='post'>
-                    <button type='submit' class="btn btn-primary">View Full Post</button>
+                    <button type='submit' class='view'>View Full Post</button>
                   </form>
                 </div>
               </div>

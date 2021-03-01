@@ -178,8 +178,13 @@ router.get('/my-issues', (req, res, next) => {
                 console.log("my-issues get: "+result);
                 res.end(JSON.stringify(result));
             });
-         } else {
-            res.send('Access Denied');
+        } else if(user.UserTypeID == 3) {
+            post.list(user.UserID, 2, function(result){
+                console.log("my-issues get: "+result);
+                res.end(JSON.stringify(result));
+            });
+        } else {
+            res.render('Access Denied');
         }
     }
 });
