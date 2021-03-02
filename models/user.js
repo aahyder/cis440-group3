@@ -59,7 +59,7 @@ User.prototype = {
                 });
             } else {
                 console.log('user login failed!');
-                callback(null);
+                callback(0);
             }
         });
     }

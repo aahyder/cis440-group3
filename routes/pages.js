@@ -30,7 +30,7 @@ router.get('/', (req, res, next) => {
     if(user) {
         res.redirect('/index');
     }
-    res.render('login.ejs', {});
+    res.render('login.ejs', {invalid: false});
 });
 
 router.get('/view-post', (req, res, next) => {
@@ -223,7 +223,7 @@ router.post('/login', (req, res, next) => {
     console.log(req.body);
     user.login(req.body.username, req.body.password, function(result) {
         console.log('login post: '+result)
-        if(result) {
+        if(result == 1) {
             console.log("session user before: "+req.session.user);
             req.session.user = result;
             console.log('session user after: '+req.session.user);
@@ -231,7 +231,7 @@ router.post('/login', (req, res, next) => {
             console.log(req.session.opp);
             res.redirect('/index');
         }else {
-            res.send('Username/Password incorrect!');
+            res.render('login.ejs', {invalid: true});
         }
     });
 });
