@@ -264,15 +264,15 @@ router.post('/view-post', (req, res, next) => {
 });
 
 router.post('/approve', (req, res, next) => {
-    var user = req.session.user;
-    var user = JSON.parse(user);
+    var user = JSON.parse(req.session.user);
     console.log(user.UserTypeID)
     if(user.UserTypeID == 1) {
         request.approve(req.query.id, function(result){
             console.log('approve post: '+result);
             var data = JSON.parse(result);
-            console.log(data)
-            notification.emailNotify(data.NewEmail, 'Account Request Approved',"Your request has been approved. Your username is "+data.NewUser+" and your password is "+data.NewPassword+".");
+            console.log(data);
+            console.log(data[0].NewEmail);
+            notification.emailNotify(data[0].NewEmail, 'Account Request Approved',"Your request has been approved. Your username is "+data[0].NewUser+" and your password is "+data[0].NewPassword+".");
             if(result) {
                 res.redirect('/admin');
             }

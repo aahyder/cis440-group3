@@ -16,7 +16,7 @@ var emailNotify = function(email, subject, msg) {
     subject: subject,
     text: msg
   };
-
+  console.log(mailOptions);
   transporter.sendMail(mailOptions, function(error, info){
     if (error) {
       console.log(error);
