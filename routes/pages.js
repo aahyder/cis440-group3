@@ -223,7 +223,7 @@ router.post('/login', (req, res, next) => {
     console.log(req.body);
     user.login(req.body.username, req.body.password, function(result) {
         console.log('login post: '+result)
-        if(result == 1) {
+        if(JSON.parse(result).UserID > 0) {
             console.log("session user before: "+req.session.user);
             req.session.user = result;
             console.log('session user after: '+req.session.user);
